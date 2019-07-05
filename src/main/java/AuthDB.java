@@ -81,7 +81,7 @@ public class AuthDB {
      * @return id пользователя
      * @throws SQLException
      */
-    public static String getIdUser(Statement statement, String token) throws SQLException {
+    public static String getIdUserByToken(Statement statement, String token) throws SQLException {
 
         ResultSet resultSet = statement.executeQuery("SELECT ID_USER FROM USER_TOKEN WHERE token = '" + token +  "';\n");
 
@@ -92,11 +92,24 @@ public class AuthDB {
 
     /**
      * @param statement Подключение к БД
+     * @param name Имя пользователя
+     * @return Информация о пользователе
+     * @throws SQLException
+     */
+    public static ResultSet getInfoUserByName(Statement statement, String name) throws SQLException {
+
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USER_INFO WHERE NAME = '" + name + "';\n");
+
+        return resultSet;
+    }
+
+    /**
+     * @param statement Подключение к БД
      * @param token Токен пользователя
      * @return Вся информация польззователя (ID, INFO, MAIL, NAME)
      * @throws SQLException
      */
-    public static ResultSet getInfoUser(Statement statement, String token) throws SQLException {
+    public static ResultSet getInfoUserByToken(Statement statement, String token) throws SQLException {
 
         // SELECT ui.ID, ui.INFO, ui.MAIL, ui.NAME FROM (SELECT * FROM USER_INFO) ui, (SELECT * FROM USER_TOKEN WHERE TOKEN = 'token999999') ut WHERE ui.ID = ut.ID_USER;
         ResultSet resultSet = statement.executeQuery("SELECT ui.ID, ui.INFO, ui.MAIL, ui.NAME FROM (SELECT * FROM USER_INFO) ui, (SELECT * FROM USER_TOKEN WHERE TOKEN = '" + token + "') ut WHERE ui.ID = ut.ID_USER;");
