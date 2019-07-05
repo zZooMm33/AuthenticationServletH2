@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>${name}!</title>
+    <style>
+
+    </style>
 </head>
 <body>
 <h2>Hello ${name}!</h2>

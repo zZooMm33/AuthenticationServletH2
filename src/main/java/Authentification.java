@@ -30,7 +30,9 @@ public class Authentification extends HttpServlet
         Writer outFreeMarker = new StringWriter();
 
         String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
+
         temp.process(freeMarkerMap, outFreeMarker);
+
         resp.getWriter().println(outFreeMarker.toString());//request.getCookies()[0].getValue()
         resp.setContentType("text/html");//200 302 404
         } catch (TemplateException e)
