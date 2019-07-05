@@ -8,7 +8,7 @@ public class Main {
     {
         try
         {
-            Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", null);
+            Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/Auth", "sa", null);
             if (connection == null)
                 System.out.println("FAIL");
             else
