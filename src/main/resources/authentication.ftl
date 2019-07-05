@@ -18,6 +18,8 @@
 <h1>${error}</h1>
 <#elseif authButton != "">
         YARIK NAPISHI KNOPKI
+    <a href="${webAddress}login?login=zZooMm&pass=Hasdasd1">Login</a>
+
 <#else>
     <h2>Hello ${name}! Your mail ${mail}</h2>
     <h2>Info ${info}</h2>

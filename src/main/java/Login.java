@@ -2,10 +2,7 @@ import org.h2.engine.Session;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.UUID;
@@ -24,9 +21,9 @@ public class Login extends HttpServlet
             Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/Auth", "sa", null);
             Statement statement = connection.createStatement();
             String realPassAuthDB =AuthDB.getPass(statement,login);
-            if(pass==realPassAuthDB){
+            if(pass.equals(realPassAuthDB)){
                 HttpSession session=req.getSession();
-                ResultSet resultSetInfo=AuthDB.getInfoUser(statement,);
+                ResultSet resultSetInfo=AuthDB.getInfoUserByName(statement,login);
                 resultSetInfo.next();
                 session.setAttribute("name",resultSetInfo.getString("NAME"));
                 session.setAttribute("mail",resultSetInfo.getString("MAIL"));
@@ -35,16 +32,14 @@ public class Login extends HttpServlet
                 String token=UUID.randomUUID().toString().toUpperCase();
                 session.setAttribute("token",token);
                 AuthDB.updateToken(statement,resultSetInfo.getString("ID"),token);
-
+                Cookie ck=new Cookie("token",token);//creating cookie object
+                resp.addCookie(ck);//adding cookie in the response
                 }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-
         }
 
-
-        resp.sendRedirect("/authentication");
+        String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
+     //   resp.sendRedirect(webAddress+"authentication");
     }
 }

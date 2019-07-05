@@ -2,6 +2,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -17,6 +18,7 @@ public class Authentication extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
 
+
         Configuration cfgFreeMarker = new Configuration(Configuration.VERSION_2_3_28);
         cfgFreeMarker.setClassForTemplateLoading(this.getClass(), "/");
         //jdbc:h2:tcp://localhost/~/Auth
@@ -29,6 +31,7 @@ public class Authentication extends HttpServlet
 
         String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
         freeMarkerMap.put("name","");
+        freeMarkerMap.put("webAddress",webAddress);
         freeMarkerMap.put("mail","");
         freeMarkerMap.put("info","");
         //freeMarkerMap.put("pass","");
@@ -38,13 +41,14 @@ public class Authentication extends HttpServlet
         HttpSession session=req.getSession();
         boolean haveUserInfo=false;
         if(session.getAttribute("name")!=null) {
-            freeMarkerMap.put("error","Username ne ravno null");
+
             freeMarkerMap.put("name",session.getAttribute("name").toString());
             freeMarkerMap.put("mail",session.getAttribute("mail").toString());
             freeMarkerMap.put("info",session.getAttribute("info").toString());
             haveUserInfo=true;
             Cookie cook=new Cookie("token",session.getAttribute("token").toString());//creating cookie object
             resp.addCookie(cook);
+
         }
         else{
            // freeMarkerMap.put("error","Username ravno null");
@@ -58,7 +62,7 @@ public class Authentication extends HttpServlet
                         Class.forName("org.h2.Driver");
                         Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/Auth", "sa", null);
                         Statement statement = connection.createStatement();
-                        ResultSet resultSetInfo=AuthDB.getInfoUser(statement,cookies[i].getValue().toString());
+                        ResultSet resultSetInfo=AuthDB.getInfoUserByToken(statement,cookies[i].getValue().toString());
 
                         resultSetInfo.next();
                         freeMarkerMap.put("name",resultSetInfo.getString("NAME"));
