@@ -6,40 +6,20 @@ import java.util.UUID;
 public class AuthDB {
 
     /**
-     * Создание БД и тестовых пользователей
+     * Создание таблиц бд если их нет
      * @param statement Подключение к БД
      * @throws SQLException
      */
     public static void createDB(Statement statement) throws SQLException {
 
-        final String dropTableUser = "DROP TABLE if exists USER_INFO;\n";
-        final String dropTablePass = "DROP TABLE if exists USER_PASS;\n";
-        final String dropTableToken = "DROP TABLE if exists USER_TOKEN;\n";
-
-
-        final String createTableUser = "CREATE TABLE USER_INFO(ID UUID PRIMARY KEY, NAME VARCHAR(255), MAIL VARCHAR(255), INFO VARCHAR(255));\n";
-        final String createTablePass = "CREATE TABLE USER_PASS(ID UUID PRIMARY KEY,ID_USER UUID ,PASS VARCHAR(255));\n";
-        final String createTableToken = "CREATE TABLE USER_TOKEN(ID UUID PRIMARY KEY, ID_USER UUID, TOKEN VARCHAR(255));\n";
-
-        // Удаление табл перед созданием
-        statement.execute(dropTableUser);
-        statement.execute(dropTablePass);
-        statement.execute(dropTableToken);
+        final String createTableUser = "CREATE TABLE if not exists USER_INFO(ID UUID PRIMARY KEY, NAME VARCHAR(255), MAIL VARCHAR(255), INFO VARCHAR(255));\n";
+        final String createTablePass = "CREATE TABLE if not exists USER_PASS(ID UUID PRIMARY KEY,ID_USER UUID ,PASS VARCHAR(255));\n";
+        final String createTableToken = "CREATE TABLE if not exists USER_TOKEN(ID UUID PRIMARY KEY, ID_USER UUID, TOKEN VARCHAR(255));\n";
 
         // Создание табл
         statement.executeUpdate(createTableUser);
         statement.executeUpdate(createTablePass);
         statement.executeUpdate(createTableToken);
-
-        // Создаем 2 птелей для проверки
-        String idUser1 = insertUser(statement, "zZooMm", "zoom@mail.ru", "ЧТО ТО");
-        insertUserPass(statement, idUser1, "Hasdasd1");
-        insertUserToken(statement, idUser1, "token131231");
-
-        String idUser2 = insertUser(statement, "bezumnuixleb", "bezumnuixleb@mail.ru", "ЧТО то про юзера");
-        insertUserPass(statement, idUser2, "SSSSSSS");
-        insertUserToken(statement, idUser2, "token999999");
-
     }
 
     /**
