@@ -21,17 +21,17 @@ public class AuthDB {
         final String createTablePass = "CREATE TABLE USER_PASS(ID UUID PRIMARY KEY,ID_USER UUID ,PASS VARCHAR(255));\n";
         final String createTableToken = "CREATE TABLE USER_TOKEN(ID UUID PRIMARY KEY, ID_USER UUID, TOKEN VARCHAR(255));\n";
 
-// Удаление табл перед созданием
+        // Удаление табл перед созданием
         statement.execute(dropTableUser);
         statement.execute(dropTablePass);
         statement.execute(dropTableToken);
 
-// Создание табл
+        // Создание табл
         statement.executeUpdate(createTableUser);
         statement.executeUpdate(createTablePass);
         statement.executeUpdate(createTableToken);
 
-// Создаем 2 птелей для проверки
+        // Создаем 2 птелей для проверки
         String idUser1 = insertUser(statement, "zZooMm", "zoom@mail.ru", "ЧТО ТО");
         insertUserPass(statement, idUser1, "Hasdasd1");
         insertUserToken(statement, idUser1, "token131231");
@@ -225,7 +225,7 @@ public class AuthDB {
      * @param newToken Новый токен пользователя
      * @throws SQLException
      */
-    public static void updateTokenByIdToken(Statement statement, String oldToken, String newToken) throws SQLException {
+    public static void updateTokenByToken(Statement statement, String oldToken, String newToken) throws SQLException {
 
         //String sql = "UPDATE " + nameTable +  " SET FIRST_NAME = '" + student.getFirstName() + "', SECOND_NAME = '" + student.getSecondName() + "', AGE = " + student.getAge() + " WHERE ID = '" + student.getId() + "'";
         String sql = "UPDATE USER_TOKEN SET TOKEN = '" + newToken +"' WHERE TOKEN = '" + oldToken +  "';\n";
