@@ -6,11 +6,28 @@ import java.util.UUID;
 public class AuthDB {
 
     /**
-     * Создание БД и тестовых пользователей
+     * Создание таблиц бд если их нет
      * @param statement Подключение к БД
      * @throws SQLException
      */
     public static void createDB(Statement statement) throws SQLException {
+
+        final String createTableUser = "CREATE TABLE if not exists USER_INFO(ID UUID PRIMARY KEY, NAME VARCHAR(255), MAIL VARCHAR(255), INFO VARCHAR(255));\n";
+        final String createTablePass = "CREATE TABLE if not exists USER_PASS(ID UUID PRIMARY KEY,ID_USER UUID ,PASS VARCHAR(255));\n";
+        final String createTableToken = "CREATE TABLE if not exists USER_TOKEN(ID UUID PRIMARY KEY, ID_USER UUID, TOKEN VARCHAR(255));\n";
+
+// Создание табл
+        statement.executeUpdate(createTableUser);
+        statement.executeUpdate(createTablePass);
+        statement.executeUpdate(createTableToken);
+    }
+
+    /**
+     * Создание БД и тестовых пользователей
+     * @param statement Подключение к БД
+     * @throws SQLException
+     */
+    public static void createDB2(Statement statement) throws SQLException {
 
         final String dropTableUser = "DROP TABLE if exists USER_INFO;\n";
         final String dropTablePass = "DROP TABLE if exists USER_PASS;\n";
