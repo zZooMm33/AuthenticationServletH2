@@ -19,7 +19,8 @@ public class Logout extends HttpServlet
             Statement statement = connection.createStatement();
             String token=session.getAttribute("token").toString();
 
-           // AuthDB.updateTokenByToken(statement,token,"");
+            AuthDB.updateTokenByToken(statement,token,"");
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

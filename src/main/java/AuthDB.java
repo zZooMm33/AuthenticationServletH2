@@ -6,11 +6,49 @@ import java.util.UUID;
 public class AuthDB {
 
     /**
+     * Удаление таблиц, создание таблиц и тестовых пользователей
+     * @param statement Подключение к БД
+     * @throws SQLException
+     */
+    public static void createTablesUsers(Statement statement) throws SQLException {
+
+        final String dropTableUser = "DROP TABLE if exists USER_INFO;\n";
+        final String dropTablePass = "DROP TABLE if exists USER_PASS;\n";
+        final String dropTableToken = "DROP TABLE if exists USER_TOKEN;\n";
+
+
+        final String createTableUser = "CREATE TABLE USER_INFO(ID UUID PRIMARY KEY, NAME VARCHAR(255), MAIL VARCHAR(255), INFO VARCHAR(255));\n";
+        final String createTablePass = "CREATE TABLE USER_PASS(ID UUID PRIMARY KEY,ID_USER UUID ,PASS VARCHAR(255));\n";
+        final String createTableToken = "CREATE TABLE USER_TOKEN(ID UUID PRIMARY KEY, ID_USER UUID, TOKEN VARCHAR(255));\n";
+
+// Удаление табл перед созданием
+        statement.execute(dropTableUser);
+        statement.execute(dropTablePass);
+        statement.execute(dropTableToken);
+
+// Создание табл
+        statement.executeUpdate(createTableUser);
+        statement.executeUpdate(createTablePass);
+        statement.executeUpdate(createTableToken);
+
+// Создаем 2 птелей для проверки
+        String idUser1 = insertUser(statement, "zZooMm", "zoom@mail.ru", "ЧТО ТО");
+        insertUserPass(statement, idUser1, "Hasdasd1");
+        insertUserToken(statement, idUser1, "token131231");
+
+        String idUser2 = insertUser(statement, "bezumnuixleb", "bezumnuixleb@mail.ru", "ЧТО то про юзера");
+        insertUserPass(statement, idUser2, "SSSSSSS");
+        insertUserToken(statement, idUser2, "token999999");
+
+    }
+
+
+    /**
      * Создание таблиц бд если их нет
      * @param statement Подключение к БД
      * @throws SQLException
      */
-    public static void createDB(Statement statement) throws SQLException {
+    public static void checkTables(Statement statement) throws SQLException {
 
         final String createTableUser = "CREATE TABLE if not exists USER_INFO(ID UUID PRIMARY KEY, NAME VARCHAR(255), MAIL VARCHAR(255), INFO VARCHAR(255));\n";
         final String createTablePass = "CREATE TABLE if not exists USER_PASS(ID UUID PRIMARY KEY,ID_USER UUID ,PASS VARCHAR(255));\n";
@@ -174,10 +212,23 @@ public class AuthDB {
      * @param token Новый токен пользователя
      * @throws SQLException
      */
-    public static void updateToken(Statement statement, String idUser, String token) throws SQLException {
+    public static void updateTokenByIdUser(Statement statement, String idUser, String token) throws SQLException {
 
         //String sql = "UPDATE " + nameTable +  " SET FIRST_NAME = '" + student.getFirstName() + "', SECOND_NAME = '" + student.getSecondName() + "', AGE = " + student.getAge() + " WHERE ID = '" + student.getId() + "'";
         String sql = "UPDATE USER_TOKEN SET TOKEN = '" + token +"' WHERE ID_USER = '" + idUser +  "';\n";
+        statement.execute(sql);
+    }
+
+    /**
+     * @param statement Подключение к БД
+     * @param oldToken Старый токен пользователя
+     * @param newToken Новый токен пользователя
+     * @throws SQLException
+     */
+    public static void updateTokenByIdToken(Statement statement, String oldToken, String newToken) throws SQLException {
+
+        //String sql = "UPDATE " + nameTable +  " SET FIRST_NAME = '" + student.getFirstName() + "', SECOND_NAME = '" + student.getSecondName() + "', AGE = " + student.getAge() + " WHERE ID = '" + student.getId() + "'";
+        String sql = "UPDATE USER_TOKEN SET TOKEN = '" + newToken +"' WHERE TOKEN = '" + oldToken +  "';\n";
         statement.execute(sql);
     }
 }
