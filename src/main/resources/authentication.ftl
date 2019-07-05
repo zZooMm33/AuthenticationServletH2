@@ -18,7 +18,7 @@
 <h1>${error}</h1>
 <#elseif authButton != "">
         YARIK NAPISHI KNOPKI
-    <a href="${webAddress}login?login=zZooMm&pass=Hasdasd1">Login</a>
+
 <form action="${webAddress}login" method="post">
     <p><input name="login"> <input type="pass" name="pass"></p>
     <p><input type="submit" value="Login"></p>
