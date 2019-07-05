@@ -55,7 +55,7 @@ public class Authentication extends HttpServlet
             Cookie[] cookies=req.getCookies();
 
             for (int i = 0; i < cookies.length; i++) {
-                if(cookies[i].getName()=="token"){
+                if(cookies[i].getName().equals("token")){
                     //request from database by token
 
                     try {

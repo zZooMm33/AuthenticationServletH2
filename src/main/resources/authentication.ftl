@@ -19,11 +19,16 @@
 <#elseif authButton != "">
         YARIK NAPISHI KNOPKI
     <a href="${webAddress}login?login=zZooMm&pass=Hasdasd1">Login</a>
-
+<form action="${webAddress}login" method="post">
+    <p><input name="login"> <input type="pass" name="pass"></p>
+    <p><input type="submit" value="Login"></p>
+</form>
 <#else>
     <h2>Hello ${name}! Your mail ${mail}</h2>
     <h2>Info ${info}</h2>
-    <a href="/logout">Logout</a>
+<form action="${webAddress}logout" method="post">
+    <p><input type="submit" value="Logout"></p>
+</form>
 </#if>
 
 </body>

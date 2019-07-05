@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 public class Login extends HttpServlet
 {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String login =req.getParameter("login");
         String pass =req.getParameter("pass");
@@ -31,15 +32,17 @@ public class Login extends HttpServlet
 
                 String token=UUID.randomUUID().toString().toUpperCase();
                 session.setAttribute("token",token);
-                AuthDB.updateToken(statement,resultSetInfo.getString("ID"),token);
+                AuthDB.updateTokenByIdUser(statement,resultSetInfo.getString("ID"),token);
                 Cookie ck=new Cookie("token",token);//creating cookie object
                 resp.addCookie(ck);//adding cookie in the response
                 }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            PrintWriter writer = resp.getWriter();
+            writer.append("fail");
         }
 
         String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
-     //   resp.sendRedirect(webAddress+"authentication");
+        resp.sendRedirect(webAddress+"authentication");
     }
 }

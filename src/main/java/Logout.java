@@ -11,13 +11,21 @@ import java.util.UUID;
 public class Logout extends HttpServlet
 {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session=req.getSession();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session=req.getSession(true);
         try {
             Class.forName("org.h2.Driver");
             Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/Auth", "sa", null);
             Statement statement = connection.createStatement();
-            String token=session.getAttribute("token").toString();
+            Cookie[] cookies = req.getCookies();
+            String token="";
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        token=cookie.getValue().toString();
+                    }
+                }
+            }
 
             AuthDB.updateTokenByToken(statement,token,"");
 
@@ -30,6 +38,6 @@ public class Logout extends HttpServlet
 
         session.invalidate();
         String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
-        //   resp.sendRedirect(webAddress+"authentication");
+        resp.sendRedirect(webAddress+"authentication");
     }
 }
