@@ -22,5 +22,6 @@ dependencies {
 
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
     compile group: 'com.h2database', name: 'h2', version: '1.4.199'
+    compile group: 'org.freemarker', name: 'freemarker', version: '2.3.28'
 
 }
