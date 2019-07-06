@@ -78,15 +78,8 @@
                     data: "&login="+ login + "&pass="+ pass,
                     success: function(data) {
                         if (data.length != 0){
-                            // ошибка в логине
-                            if (data == "login"){
-                                $("#info").text("Error login !");
-                                $("#info").show();
-                            }
-                            else{ // ошибка в пароле
-                                $("#info").text("Error password !");
-                                $("#info").show();
-                            }
+                            $("#info").text("Error in login or password!");
+                            $("#info").show();
                         }
                     }
                 });
