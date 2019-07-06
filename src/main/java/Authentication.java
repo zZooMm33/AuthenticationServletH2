@@ -15,11 +15,7 @@ public class Authentication extends HttpServlet
 
         HttpSession session=req.getSession();
         boolean redirectToUser=false;
-        if(session.getAttribute("name")!=null) {
-
-            freeMarker.addToMap("name",session.getAttribute("name").toString());
-            freeMarker.addToMap("mail",session.getAttribute("mail").toString());
-            freeMarker.addToMap("info",session.getAttribute("info").toString());
+        if(session.getAttribute("token")!=null) {
             redirectToUser=true;
             Cookie cook=new Cookie("token",session.getAttribute("token").toString());
             resp.addCookie(cook);

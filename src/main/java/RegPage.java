@@ -1,9 +1,6 @@
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -13,13 +10,36 @@ public class RegPage extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
+        FreeM freeMarker=new FreeM("Registration.ftl",this);
+        String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
+        freeMarker.initMap(webAddress);
 
-        String out = MessageFormat.format("Reg page page.<br/>","");
         HttpSession session=req.getSession();
-        out+=session.getAttribute("token").toString();
+        boolean redirectToUser=false;
+        if(session.getAttribute("token")!=null) {
+            redirectToUser=true;
+            Cookie cook=new Cookie("token",session.getAttribute("token").toString());
+            resp.addCookie(cook);
 
-        resp.getWriter().println(out);//request.getCookies()[0].getValue()
-        resp.setContentType("text/html");//200 302 404
+        }
+        else{
+            try {
+                Cookie[] cookies=req.getCookies();
+                for (int i = 0; i < cookies.length; i++) {
+                    if(cookies[i].getName().equals("token")){
+                        redirectToUser=true;
+                    }
+                }
+            }
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
 
+        }
+        if(redirectToUser){
+            resp.sendRedirect(webAddress+"user");
+        }
+        resp.getWriter().println(freeMarker);
+        resp.setContentType("text/html");
     }
 }
