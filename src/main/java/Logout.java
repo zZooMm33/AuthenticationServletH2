@@ -15,8 +15,7 @@ public class Logout extends HttpServlet
         HttpSession session=req.getSession(true);
         try {
             Class.forName("org.h2.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/Auth", "sa", null);
-            Statement statement = connection.createStatement();
+            Statement statement = DBConnection.getStatement();
             Cookie[] cookies = req.getCookies();
             String token="";
             if (cookies != null) {
