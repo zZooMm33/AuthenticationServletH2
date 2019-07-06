@@ -231,4 +231,26 @@ public class AuthDB {
         String sql = "UPDATE USER_TOKEN SET TOKEN = '" + newToken +"' WHERE TOKEN = '" + oldToken +  "';\n";
         statement.execute(sql);
     }
+
+    /**
+     * @param statement Подключение к БД
+     * @param name Имя пользователя для поиска
+     * @return Пользователя с найденным именем
+     * @throws SQLException
+     */
+    public static ResultSet checkUserName(Statement statement, String name) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USER_INFO WHERE NAME = '" + name + "';\n");
+        return resultSet;
+    }
+
+    /**
+     * @param statement Подключение к БД
+     * @param mail Mail пользователя для поиска
+     * @return Пользователя с найденным mail
+     * @throws SQLException
+     */
+    public static ResultSet checkMail(Statement statement, String mail) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USER_INFO WHERE MAIL = '" + mail + "';\n");
+        return resultSet;
+    }
 }
