@@ -4,7 +4,9 @@ build/
 gradle/
 h2/
 db/
+pages/
 
+TestDB.java
 gradlew
 gradlew.bat
 *.iml
