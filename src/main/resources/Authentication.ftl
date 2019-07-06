@@ -78,12 +78,17 @@
                     data: "&login="+ login + "&pass="+ pass,
                     success: function(data) {
                         if (data.length != 0){
-                            $("#info").text("Error in login or password!"+data);
-                            $("#info").show();
-                        } else {
-                               $("#info").text("Error in login or password!"+data);
-                            $("#info").show();
-                        //window.location.replace("${webAddress}user");
+                            if (data == "loginFail"){
+                                $("#info").text("This login does not exist!");
+                                $("#info").show();
+                            }
+                            else if (data == "passFail"){
+                                $("#info").text("Error in password!");
+                                $("#info").show();
+                            }
+                        }
+                        else {
+                            window.location.replace("${webAddress}user");
                         }
                     }
                 });

@@ -27,11 +27,11 @@
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
-            <h2 class="mt-3 center">Registration</h2>
+            <h2 class="mt-3 center reg_hide">Registration</h2>
             <div class="alert alert-danger hide mt-3" id="infoError" role="alert"></div>
             <div class="alert alert-success hide mt-3" id="infoSuccess" role="alert"></div>
 
-            <form class="mt-3">
+            <form class="mt-3 reg_hide">
                 <div class="left">
                     <div class="form-group">
                         <label for="exampleInputUserName" class="left">User name</label>
@@ -53,9 +53,10 @@
                         <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
                     </div>
                 </div>
-
-                <div class="center"><button type="button" id="reg" class="btn btn-success">Registration</button></div>
             </form>
+
+            <div class="center"><button type="button" id="reg" class="btn btn-primary reg_hide">Registration</button></div>
+            <div class="center"><button type="button" id="login" class="btn btn-success hide">Go to authentication</button></div>
         </div>
         <div class="col-4"></div>
     </div>
@@ -67,6 +68,11 @@
 
 <script>
     $(document).ready(function () {
+
+        $("#login").bind("click", function () {
+            window.location.replace("${webAddress}authentication");
+        });
+
         $("#reg").bind("click", function () {
 
             $("#infoError").hide();
@@ -117,6 +123,9 @@
                                 $("#exampleInputPassword").val("");
                                 $("#exampleFormControlTextareaInfo").val("");
                                 $("#exampleInputEmail").val("");
+
+                                $(".reg_hide").hide();
+                                $("#login").show();
 
                                 $("#infoSuccess").text("Registration completed successfully !");
                                 $("#infoSuccess").show();
