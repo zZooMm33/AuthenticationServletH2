@@ -4,6 +4,7 @@ build/
 gradle/
 h2/
 db/
+pages/
 TestDb.java
 
 *.iml
