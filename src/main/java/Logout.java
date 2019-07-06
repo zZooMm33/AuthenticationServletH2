@@ -36,7 +36,7 @@ public class Logout extends HttpServlet
         resp.addCookie(ck);
 
         session.invalidate();
-        String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
-        resp.sendRedirect(webAddress+"authentication");
+     //   String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
+    //    resp.sendRedirect(webAddress+"authentication");
     }
 }

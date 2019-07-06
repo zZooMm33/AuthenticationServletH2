@@ -20,11 +20,19 @@ public class Login extends HttpServlet
 
         try {
             Class.forName("org.h2.Driver");
-
-            Statement statement = DBConnection.getStatement();
-            String realPassAuthDB =AuthDB.getPass(statement,login);
-            foundLogin = realPassAuthDB != null;
-
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String realPassAuthDB="";
+        Statement statement = DBConnection.getStatement();
+            try {
+                realPassAuthDB = AuthDB.getPass(statement, login);
+                foundLogin = realPassAuthDB != null;
+            }
+            catch (SQLException e){
+                resp.getWriter().append("loginFail");
+            }
+            try {
             if(pass.equals(realPassAuthDB)){
                 HttpSession session=req.getSession();
                 ResultSet resultSetInfo=AuthDB.getInfoUserByName(statement,login);
@@ -41,15 +49,14 @@ public class Login extends HttpServlet
                 Cookie ck=new Cookie("token",token);
                 resp.addCookie(ck);
                 }
-        } catch (ClassNotFoundException | SQLException e) {
+            else {
+                resp.getWriter().append("passFail");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
             PrintWriter writer = resp.getWriter();
-            if(foundLogin)writer.append("loginFail");
-            else
-            writer.append("fail");
-        }
+            resp.getWriter().append("passFail");
 
-        String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
-        resp.sendRedirect(webAddress+"authentication");
+        }
     }
 }
