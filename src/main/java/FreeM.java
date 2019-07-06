@@ -34,7 +34,6 @@ public class FreeM {
         freeMarkerMap.put("webAddress",webAddress);
         freeMarkerMap.put("mail","");
         freeMarkerMap.put("info","");
-        //freeMarkerMap.put("pass","");
         freeMarkerMap.put("error","");
         freeMarkerMap.put("authButton","");
     }

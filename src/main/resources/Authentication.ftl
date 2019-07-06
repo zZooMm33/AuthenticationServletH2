@@ -53,16 +53,12 @@
 
 <script>
     $(document).ready(function () {
-
         $("#reg").bind("click", function () {
             window.location.replace("${webAddress}reg");
         });
-
         $("#login").bind("click", function () {
-
             $("#info").hide();
             var login = $("#exampleInputUserName").val(), pass = $("#exampleInputPassword").val();
-
             if (login.length == 0){
                 $("#info").text("Enter user name !");
                 $("#info").show();
@@ -78,11 +74,11 @@
                     data: "&login="+ login + "&pass="+ pass,
                     success: function(data) {
                         if (data.length != 0){
-                            if (data == "loginFail"){
+                            if (data.indexOf("loginFail") != -1){
                                 $("#info").text("This login does not exist!");
                                 $("#info").show();
                             }
-                            else if (data == "passFail"){
+                            else if (data.indexOf("passFail") != -1){
                                 $("#info").text("Error in password!");
                                 $("#info").show();
                             }

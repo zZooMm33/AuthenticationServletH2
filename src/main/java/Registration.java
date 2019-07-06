@@ -3,12 +3,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
-@WebServlet(urlPatterns = "/reg")
+@WebServlet(urlPatterns = "/regPost")
 public class Registration extends HttpServlet
 {
     @Override
@@ -18,7 +19,7 @@ public class Registration extends HttpServlet
         String pass =req.getParameter("pass");
         String mail =req.getParameter("mail");
         String info =req.getParameter("info");
-        boolean foundLogin=false;
+        boolean foundLoginMail=false;
 
         try {
             Class.forName("org.h2.Driver");
@@ -28,23 +29,52 @@ public class Registration extends HttpServlet
         String realPassAuthDB="";
         Statement statement = DBConnection.getStatement();
         try {
-            AuthDB.checkUserName(statement,mail);
-            resp.getWriter().append("mail");
-            AuthDB.checkUserName(statement,login);
-            resp.getWriter().append("login");
+            ResultSet resultSet= AuthDB.checkMail(statement,mail);
+            while (resultSet.next()){
+                resultSet.getString("NAME");
+                resp.getWriter().append("mail");
+                foundLoginMail=true;
+            }
+
+            resultSet=AuthDB.checkUserName(statement,login);
+            while (resultSet.next()){
+                resultSet.getString("NAME");
+                resp.getWriter().append("login");
+                foundLoginMail=true;
+            }
+
         }
         catch (SQLException e){
-            try {
+            //e.printStackTrace();
+
+
+        }
+        try {
+            if(!foundLoginMail)
+            {
                 AuthDB.insertUser(statement,login,mail,info);
                 ResultSet userResult = AuthDB.getInfoUserByName(statement,login);
                 userResult.next();
-//                    toPrint+=resultSet.getInt("ID")+"-id,"+resultSet.getString("STREET")+","+resultSet.getInt("HOMENUM");
-                AuthDB.insertUserPass(statement,userResult.getInt("ID")+"",pass);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                String id=userResult.getString("ID");
+                AuthDB.insertUserPass(statement,id,pass);
+                AuthDB.insertUserToken(statement,id,"nechevo");
+            }
+        } catch (SQLException ex) {
+            //ex.printStackTrace();
+            try {
+                statement= DBConnection.getStatement();
+                AuthDB.checkTables(statement);
+                AuthDB.insertUser(statement,login,mail,info);
+                ResultSet userResult = AuthDB.getInfoUserByName(statement,login);
+                userResult.next();
+                String id=userResult.getString("ID");
+                AuthDB.insertUserPass(statement,id,pass);
+
+                AuthDB.insertUserToken(statement,id,"nechevo");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
-
 
     }
 }

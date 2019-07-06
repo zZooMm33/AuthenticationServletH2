@@ -21,7 +21,6 @@ public class UserPage extends HttpServlet
     {
 
         FreeM freeMarker=new FreeM("UserProfile.ftl",this);
-//        String out=this.getServletContext().getContextPath();
         String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
         freeMarker.initMap(webAddress);
 
@@ -66,17 +65,12 @@ public class UserPage extends HttpServlet
 
         }
         if(!haveUserInfo){
-            URL obj = new URL(webAddress+"logout");
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            Cookie ck=new Cookie("token","");
+            ck.setMaxAge(0);
+            resp.addCookie(ck);
 
-            // optional default is GET
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.flush();
-            wr.close();
+            session.invalidate();
             resp.sendRedirect(webAddress+"authentication");
-            //freeMarker.addToMap("authButton","true");
         }
         resp.getWriter().println(freeMarker);
         resp.setContentType("text/html");

@@ -103,33 +103,33 @@
             else{
                 $.ajax({
                     type: "POST",
-                    url: "${webAddress}reg",
+                    url: "${webAddress}regPost",
                     data: "&login="+ login + "&pass="+ pass + "&info="+ info + "&mail="+ mail,
                     success: function(data) {
                         if (data.length != 0){
                             // логин уже занят
-                            if (data == "login"){
+                            if (data.indexOf("login") != -1){
                                 $("#infoError").text("This login is already in use!");
                                 $("#infoError").show();
                             }
                             // email уже занят
-                            else if (data == "mail"){
+                            else if (data.indexOf("mail") != -1){
                                 $("#infoError").text("This email is already in use!");
                                 $("#infoError").show();
                             }
-                            else {
-                                // очищаем поля и выводим сообщение об успешной регистрации
-                                $("#exampleInputUserName").val("");
-                                $("#exampleInputPassword").val("");
-                                $("#exampleFormControlTextareaInfo").val("");
-                                $("#exampleInputEmail").val("");
+                        }
+                        else {
+                            // очищаем поля и выводим сообщение об успешной регистрации
+                            $("#exampleInputUserName").val("");
+                            $("#exampleInputPassword").val("");
+                            $("#exampleFormControlTextareaInfo").val("");
+                            $("#exampleInputEmail").val("");
 
-                                $(".reg_hide").hide();
-                                $("#login").show();
+                            $(".reg_hide").hide();
+                            $("#login").show();
 
-                                $("#infoSuccess").text("Registration completed successfully !");
-                                $("#infoSuccess").show();
-                            }
+                            $("#infoSuccess").text("Registration completed successfully !");
+                            $("#infoSuccess").show();
                         }
 
                     }
