@@ -117,19 +117,19 @@
                                 $("#infoError").text("This email is already in use!");
                                 $("#infoError").show();
                             }
-                            else {
-                                // очищаем поля и выводим сообщение об успешной регистрации
-                                $("#exampleInputUserName").val("");
-                                $("#exampleInputPassword").val("");
-                                $("#exampleFormControlTextareaInfo").val("");
-                                $("#exampleInputEmail").val("");
+                        }
+                        else {
+                            // очищаем поля и выводим сообщение об успешной регистрации
+                            $("#exampleInputUserName").val("");
+                            $("#exampleInputPassword").val("");
+                            $("#exampleFormControlTextareaInfo").val("");
+                            $("#exampleInputEmail").val("");
 
-                                $(".reg_hide").hide();
-                                $("#login").show();
+                            $(".reg_hide").hide();
+                            $("#login").show();
 
-                                $("#infoSuccess").text("Registration completed successfully !");
-                                $("#infoSuccess").show();
-                            }
+                            $("#infoSuccess").text("Registration completed successfully !");
+                            $("#infoSuccess").show();
                         }
 
                     }

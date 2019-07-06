@@ -78,11 +78,11 @@
                     data: "&login="+ login + "&pass="+ pass,
                     success: function(data) {
                         if (data.length != 0){
-                            if (data == "loginFail"){
+                            if (data.indexOf("loginFail") != -1){
                                 $("#info").text("This login does not exist!");
                                 $("#info").show();
                             }
-                            else if (data == "passFail"){
+                            else if (data.indexOf("passFail") != -1){
                                 $("#info").text("Error in password!");
                                 $("#info").show();
                             }
