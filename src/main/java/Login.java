@@ -5,7 +5,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.Base64;
 import java.util.UUID;
 
 @WebServlet(urlPatterns = "/login")
@@ -24,6 +28,17 @@ public class Login extends HttpServlet
             e.printStackTrace();
         }
         String realPassAuthDB="";
+
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        pass+="secretCode";
+        byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
+        String encodedPass = Base64.getEncoder().encodeToString(hash);
+
         Statement statement = DBConnection.getStatement();
             try {
                 realPassAuthDB = AuthDB.getPass(statement, login);
@@ -33,7 +48,7 @@ public class Login extends HttpServlet
                 resp.getWriter().append("loginFail");
             }
             try {
-            if(pass.equals(realPassAuthDB)){
+            if(encodedPass.equals(realPassAuthDB)){
                 HttpSession session=req.getSession();
                 ResultSet resultSetInfo=AuthDB.getInfoUserByName(statement,login);
                 resultSetInfo.next();
