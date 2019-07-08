@@ -1,11 +1,9 @@
-package storage.Impl;
-
-import storage.PropReader;
+package storage;
 
 /**
  * Класс для фабрики для Storage
  */
-class CreatorStorage {
+class FactoryStorage {
     /**
      * Вернет интерфейсе для Storage
      * @return Вернет интерфейсе для Storage

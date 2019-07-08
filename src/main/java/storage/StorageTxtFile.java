@@ -1,7 +1,5 @@
-package storage.Impl;
+package storage;
 
-
-import storage.UserInStorage;
 
 /**
  * Интерфейс для Storage для работы с txt

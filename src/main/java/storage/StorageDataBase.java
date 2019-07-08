@@ -1,7 +1,4 @@
-package storage.Impl;
-
-import storage.PropReader;
-import storage.UserInStorage;
+package storage;
 
 import java.sql.*;
 import java.util.UUID;

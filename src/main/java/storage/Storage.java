@@ -1,8 +1,8 @@
-package storage.Impl;
+package storage;
 
 import storage.UserInStorage;
 
-interface Storage {
+public interface Storage {
     public boolean addUser(String userName, String userMail, String userInfo, String userPass, String userToken);
     public UserInStorage getInfoUserByName(String name);
     public UserInStorage getInfoUserByToken(String token);
