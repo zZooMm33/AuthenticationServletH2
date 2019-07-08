@@ -38,7 +38,6 @@ public class EncoderPass
 
     private static void setSaltFromProp()
     {
-        //TODO Read from properties
         salt = "secretCode";
     }
 }

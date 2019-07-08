@@ -1,7 +1,10 @@
 package controllersGetRequest;
 
+import storage.StorageSingleton;
+import storage.UserInStorage;
 import utils.ClientCookie;
 import utils.ClientSession;
+import utils.EncoderPass;
 import utils.FreeM;
 
 import javax.servlet.ServletException;
@@ -40,5 +43,41 @@ public class RegPage extends HttpServlet
         }
         resp.getWriter().println(freeMarker);
         resp.setContentType("text/html");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+
+        String login = req.getParameter("login");
+        String pass = req.getParameter("pass");
+        String mail = req.getParameter("mail");
+        String info = req.getParameter("info");
+        boolean foundLoginMail = false;
+
+
+        String realPassAuthDB = "";
+        UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByToken(ClientCookie.getCookieIfExist(req, "token"));
+
+
+        if (StorageSingleton.getStorageSingleton().checkMail(mail))
+        {
+            foundLoginMail = true;
+            resp.getWriter().append("mail");
+        }
+
+        if (StorageSingleton.getStorageSingleton().checkUserName(login))
+        {
+            foundLoginMail = true;
+            resp.getWriter().append("login");
+        }
+
+        if (!foundLoginMail)
+        {
+            String encodedPass = EncoderPass.encode(pass);
+            StorageSingleton.getStorageSingleton().addUser(login, mail, info, encodedPass, "nechevo");
+        }
+
+
     }
 }

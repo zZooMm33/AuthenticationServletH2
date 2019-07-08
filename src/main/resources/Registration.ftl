@@ -103,7 +103,7 @@
             else{
                 $.ajax({
                     type: "POST",
-                    url: "${webAddress}regPost",
+                    url: "${webAddress}reg",
                     data: "&login="+ login + "&pass="+ pass + "&info="+ info + "&mail="+ mail,
                     success: function(data) {
                         if (data.length != 0){

@@ -1,10 +1,10 @@
 package controllersPostRequest;
 
+import storage.StorageSingleton;
+import storage.UserInStorage;
 import utils.ClientCookie;
 import utils.ClientSession;
 import utils.EncoderPass;
-import storage.StorageSingleton;
-import storage.UserInStorage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,29 +29,40 @@ public class Login extends HttpServlet
         boolean foundLogin = false;
         String realPassAuthEncoded = "";
         String encodedPass = EncoderPass.encode(pass);
+
         realPassAuthEncoded = StorageSingleton.getStorageSingleton().getPass(login);
+
         if (realPassAuthEncoded == null)
         {
             foundLogin = false;
             resp.getWriter().append("loginFail");
-        }
 
-        if (encodedPass.equals(realPassAuthEncoded))
+        } else if (encodedPass != null)
         {
-            UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByToken(ClientCookie.getCookieIfExist(req, "token"));
-            ClientSession.addToSession(req, "name", user.getName());
-            ClientSession.addToSession(req, "mail", user.getMail());
-            ClientSession.addToSession(req, "info", user.getInfo());
+            if (encodedPass.equals(realPassAuthEncoded))
+            {
+                UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByName(login);
+                if (user != null)
+                {
+                    ClientSession.addToSession(req, "name", user.getName());
+                    ClientSession.addToSession(req, "mail", user.getMail());
+                    ClientSession.addToSession(req, "info", user.getInfo());
 
-            String token = UUID.randomUUID().toString().toUpperCase();
-            ClientSession.addToSession(req, "token", token);
-            StorageSingleton.getStorageSingleton().updateTokenByIdUser(user.getId(), token);
+                    String token = UUID.randomUUID().toString().toUpperCase();
+                    ClientSession.addToSession(req, "token", token);
+                    StorageSingleton.getStorageSingleton().updateTokenByIdUser(user.getId(), token);
 
-            ClientCookie.setCookie(resp, "token", token);
+                    ClientCookie.setCookie(resp, "token", token);
 
-        } else
-        {
-            resp.getWriter().append("passFail");
+                }
+
+
+            } else
+            {
+                System.out.println("1" + encodedPass + "\n" + "2" + realPassAuthEncoded);
+                resp.getWriter().append("passFail");
+
+            }
         }
 
 

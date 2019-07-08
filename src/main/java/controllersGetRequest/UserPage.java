@@ -42,22 +42,25 @@ public class UserPage extends HttpServlet
         } else
         {
             String tok = ClientCookie.getCookieIfExist(req, "token");
+
             if (tok != null)
             {
+
                 UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByToken(tok);
-                if (user == null) haveUserInfo = false;
-                else
+                if (user != null)
                 {
+
                     freeMarker.addToMap("name", user.getName());
                     freeMarker.addToMap("mail", user.getMail());
                     freeMarker.addToMap("info", user.getInfo());
                     haveUserInfo = true;
                 }
-            } else haveUserInfo = false;
+            }
 
         }
         if (!haveUserInfo)
         {
+
             ClientCookie.removeCookie(resp, "token");
             ClientSession.clearSession(req);
 
