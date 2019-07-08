@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Base64;
 
+/**
+ * Сервлет реализующий запрос на регистрацию
+ */
 @WebServlet(urlPatterns = "/regPost")
 public class Registration extends HttpServlet
 {
@@ -46,8 +49,7 @@ public class Registration extends HttpServlet
                 foundLoginMail=true;
             }
 
-        }
-        catch (SQLException e){
+        } catch (SQLException e){
             //e.printStackTrace();
         }
         try {

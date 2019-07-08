@@ -9,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+/**
+ * Сервлет реализующий страницу регистрации
+ */
 @WebServlet(urlPatterns = "/reg")
 public class RegPage extends HttpServlet
 {
@@ -24,8 +27,7 @@ public class RegPage extends HttpServlet
         if(ClientSession.checkToken()) {
             redirectToUser=true;
             ClientCookie.setCookie(resp,"token",ClientSession.getFromSession("token"));
-        }
-        else{
+        } else{
             if(!ClientCookie.getCookieIfExist(req,"token").equals(""))
                 redirectToUser=true;
         }

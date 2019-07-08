@@ -18,6 +18,9 @@ import java.sql.*;
 import java.util.Base64;
 import java.util.UUID;
 
+/**
+ * Сервлет реализующий запрос авторизации
+ */
 @WebServlet(urlPatterns = "/login")
 public class Login extends HttpServlet
 {
@@ -37,15 +40,14 @@ public class Login extends HttpServlet
         String encodedPass = EncoderPass.encode(pass);
 
         Statement statement = DBConnection.getStatement();
-            try {
-                realPassAuthEncoded = AuthDB.getPass(statement, login);
-                //TODO norm proverky after yarik sdelaet db
-                foundLogin = realPassAuthEncoded != null;
-            }
-            catch (SQLException e){
-                resp.getWriter().append("loginFail");
-            }
-            try {
+        try {
+            realPassAuthEncoded = AuthDB.getPass(statement, login);
+            //TODO norm proverky after yarik sdelaet db
+            foundLogin = realPassAuthEncoded != null;
+        } catch (SQLException e){
+            resp.getWriter().append("loginFail");
+        }
+        try {
             if(encodedPass.equals(realPassAuthEncoded)){
 
                 ResultSet resultSetInfo= AuthDB.getInfoUserByName(statement,login);
@@ -61,8 +63,7 @@ public class Login extends HttpServlet
 
                 ClientCookie.setCookie(resp,"token",token);
 
-                }
-            else {
+            } else {
                 resp.getWriter().append("passFail");
             }
         } catch (SQLException e) {
