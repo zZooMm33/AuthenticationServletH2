@@ -5,9 +5,19 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+/**
+ * Класс шифрования паролей
+ */
 public class EncoderPass
 {
     public static String salt="";
+
+    /**
+     * Зашифровать строку
+     *
+     * @param value строка
+     * @return зашифрованная строка
+     */
     public static String encode(String value){
 
         if(salt.equals(""))setSaltFromProp();
@@ -23,7 +33,9 @@ public class EncoderPass
         return Base64.getEncoder().encodeToString(hash);
     }
 
-    private static void setSaltFromProp(){
+    private static void setSaltFromProp()
+    {
+        //TODO Read from properties
         salt="secretCode";
     }
 }

@@ -11,6 +11,9 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Сервлет реализующий запрос выхода пользователя из сети
+ */
 @WebServlet(urlPatterns = "/logout")
 public class Logout extends HttpServlet
 {

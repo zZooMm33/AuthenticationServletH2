@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Base64;
 
+/**
+ * Сервлет реализующий запрос на регистрацию
+ */
 @WebServlet(urlPatterns = "/regPost")
 public class Registration extends HttpServlet
 {
@@ -46,9 +49,8 @@ public class Registration extends HttpServlet
                 foundLoginMail=true;
             }
 
-        }
-        catch (SQLException e){
-            //e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
         }
         try {
             if(!foundLoginMail)
@@ -64,7 +66,7 @@ public class Registration extends HttpServlet
                 AuthDB.insertUserToken(statement,id,"nechevo");
             }
         } catch (SQLException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
             try {
                 statement= DBConnection.getStatement();
                 AuthDB.checkTables(statement);

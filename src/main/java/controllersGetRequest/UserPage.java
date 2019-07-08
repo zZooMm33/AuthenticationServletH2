@@ -16,7 +16,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * Сервлет реализующий страницу пользователя
+ */
 @WebServlet(urlPatterns = "/user")
 public class UserPage extends HttpServlet
 {

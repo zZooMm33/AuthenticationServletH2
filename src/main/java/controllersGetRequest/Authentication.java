@@ -31,18 +31,8 @@ public class Authentication extends HttpServlet
             ClientCookie.setCookie(resp,"token",ClientSession.getFromSession("token"));
         }
         else{
-            try {
-                Cookie[] cookies=req.getCookies();
-                for (int i = 0; i < cookies.length; i++) {
-                    if(cookies[i].getName().equals("token")){
-                            redirectToUser=true;
-                    }
-                }
-            }
-            catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
+            if (!ClientCookie.getCookieIfExist(req, "token").equals(""))
+                redirectToUser = true;
         }
         if(redirectToUser){
             resp.sendRedirect(webAddress+"user");
