@@ -1,21 +1,17 @@
 package controllersPostRequest;
 
-import clientInfo.ClientCookie;
-import clientInfo.ClientSession;
-import encode.EncoderPass;
-import storage.AuthDB;
-import storage.DBConnection;
+import utils.ClientCookie;
+import utils.ClientSession;
+import utils.EncoderPass;
+import storage.StorageSingleton;
+import storage.UserInStorage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.*;
-import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -25,51 +21,39 @@ import java.util.UUID;
 public class Login extends HttpServlet
 {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
 
-        String login =req.getParameter("login");
-        String pass =req.getParameter("pass");
-        boolean foundLogin=false;
-        ClientSession.setSessionIfNotSet(req.getSession());
-        try {
-            Class.forName("org.h2.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        String realPassAuthEncoded="";
+        String login = req.getParameter("login");
+        String pass = req.getParameter("pass");
+        boolean foundLogin = false;
+        String realPassAuthEncoded = "";
         String encodedPass = EncoderPass.encode(pass);
-
-        Statement statement = DBConnection.getStatement();
-        try {
-            realPassAuthEncoded = AuthDB.getPass(statement, login);
-            //TODO norm proverky after yarik sdelaet db
-            foundLogin = realPassAuthEncoded != null;
-        } catch (SQLException e){
+        realPassAuthEncoded = StorageSingleton.getStorageSingleton().getPass(login);
+        if (realPassAuthEncoded == null)
+        {
+            foundLogin = false;
             resp.getWriter().append("loginFail");
         }
-        try {
-            if(encodedPass.equals(realPassAuthEncoded)){
 
-                ResultSet resultSetInfo= AuthDB.getInfoUserByName(statement,login);
-                resultSetInfo.next();
+        if (encodedPass.equals(realPassAuthEncoded))
+        {
+            UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByToken(ClientCookie.getCookieIfExist(req, "token"));
+            ClientSession.addToSession(req, "name", user.getName());
+            ClientSession.addToSession(req, "mail", user.getMail());
+            ClientSession.addToSession(req, "info", user.getInfo());
 
-                ClientSession.addToSession("name",resultSetInfo.getString("NAME"));
-                ClientSession.addToSession("mail",resultSetInfo.getString("MAIL"));
-                ClientSession.addToSession("info",resultSetInfo.getString("INFO"));
+            String token = UUID.randomUUID().toString().toUpperCase();
+            ClientSession.addToSession(req, "token", token);
+            StorageSingleton.getStorageSingleton().updateTokenByIdUser(user.getId(), token);
 
-                String token=UUID.randomUUID().toString().toUpperCase();
-                ClientSession.addToSession("token",token);
-                AuthDB.updateTokenByIdUser(statement,resultSetInfo.getString("ID"),token);
+            ClientCookie.setCookie(resp, "token", token);
 
-                ClientCookie.setCookie(resp,"token",token);
-
-            } else {
-                resp.getWriter().append("passFail");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else
+        {
             resp.getWriter().append("passFail");
-
         }
+
+
     }
 }

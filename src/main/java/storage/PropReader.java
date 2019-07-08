@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class PropReader {
-    public static String getVal(String key){
+public class PropReader
+{
+    public static String getVal(String key)
+    {
 
-        Properties prop=new Properties();
-        String propFileName= "config.properties";
-        InputStream inputStream= PropReader.class.getClassLoader().getResourceAsStream(propFileName);
+        Properties prop = new Properties();
+        String propFileName = "config.properties";
+        InputStream inputStream = PropReader.class.getClassLoader().getResourceAsStream(propFileName);
 
-        if(inputStream != null){
+        if (inputStream != null)
+        {
             try
             {
                 prop.load(inputStream);

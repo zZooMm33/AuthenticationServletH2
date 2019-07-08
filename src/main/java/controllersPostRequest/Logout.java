@@ -1,15 +1,16 @@
 package controllersPostRequest;
 
-import clientInfo.ClientCookie;
-import clientInfo.ClientSession;
-import storage.AuthDB;
-import storage.DBConnection;
+import utils.ClientCookie;
+import utils.ClientSession;
+import storage.StorageSingleton;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.*;
+
 
 /**
  * Сервлет реализующий запрос выхода пользователя из сети
@@ -18,21 +19,13 @@ import java.sql.*;
 public class Logout extends HttpServlet
 {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        String token = ClientCookie.getCookieIfExist(req, "token");
+        StorageSingleton.getStorageSingleton().updateTokenByToken(token, "");
 
-        try {
-            Class.forName("org.h2.Driver");
-            Statement statement = DBConnection.getStatement();
-            Cookie[] cookies = req.getCookies();
-            String token=ClientCookie.getCookieIfExist(req,"token");
+        ClientCookie.removeCookie(resp, "token");
 
-            AuthDB.updateTokenByToken(statement,token,"");
-
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        ClientCookie.removeCookie(resp,"token");
-        ClientSession.setSessionIfNotSet(req.getSession());
-        ClientSession.clearSession();
+        ClientSession.clearSession(req);
     }
 }

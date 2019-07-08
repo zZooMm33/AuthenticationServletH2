@@ -4,45 +4,54 @@ package storage;
 /**
  * Интерфейс для Storage для работы с txt
  */
-class StorageTxtFile implements Storage {
+class StorageTxtFile implements Storage
+{
 
     @Override
-    public boolean addUser(String userName, String userMail, String userInfo, String userPass, String userToken) {
+    public boolean addUser(String userName, String userMail, String userInfo, String userPass, String userToken)
+    {
         return false;
     }
 
     @Override
-    public UserInStorage getInfoUserByName(String name) {
+    public UserInStorage getInfoUserByName(String name)
+    {
         return null;
     }
 
     @Override
-    public UserInStorage getInfoUserByToken(String token) {
+    public UserInStorage getInfoUserByToken(String token)
+    {
         return null;
     }
 
     @Override
-    public String getPass(String name) {
+    public String getPass(String name)
+    {
         return null;
     }
 
     @Override
-    public boolean updateTokenByIdUser(String idUser, String token) {
+    public boolean updateTokenByIdUser(String idUser, String token)
+    {
         return false;
     }
 
     @Override
-    public boolean updateTokenByToken(String oldToken, String newToken) {
+    public boolean updateTokenByToken(String oldToken, String newToken)
+    {
         return false;
     }
 
     @Override
-    public boolean checkUserName(String name) {
+    public boolean checkUserName(String name)
+    {
         return false;
     }
 
     @Override
-    public boolean checkMail(String mail) {
+    public boolean checkMail(String mail)
+    {
         return false;
     }
 }

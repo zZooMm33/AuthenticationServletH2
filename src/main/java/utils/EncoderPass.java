@@ -1,4 +1,4 @@
-package encode;
+package utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,7 +10,7 @@ import java.util.Base64;
  */
 public class EncoderPass
 {
-    public static String salt="";
+    public static String salt = "";
 
     /**
      * Зашифровать строку
@@ -18,17 +18,20 @@ public class EncoderPass
      * @param value строка
      * @return зашифрованная строка
      */
-    public static String encode(String value){
+    public static String encode(String value)
+    {
 
-        if(salt.equals(""))setSaltFromProp();
+        if (salt.equals("")) setSaltFromProp();
         MessageDigest digest = null;
-        try {
+        try
+        {
             digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e)
+        {
             e.printStackTrace();
             return null;
         }
-        value+=salt;
+        value += salt;
         byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
     }
@@ -36,6 +39,6 @@ public class EncoderPass
     private static void setSaltFromProp()
     {
         //TODO Read from properties
-        salt="secretCode";
+        salt = "secretCode";
     }
 }
