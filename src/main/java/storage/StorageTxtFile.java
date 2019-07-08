@@ -2,7 +2,7 @@ package storage;
 
 
 /**
- * Интерфейс для Storage для работы с txt
+ * Интерфейс для Storage для работы с txt файлом
  */
 class StorageTxtFile implements Storage {
 
