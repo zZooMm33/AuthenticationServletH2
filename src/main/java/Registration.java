@@ -25,11 +25,7 @@ public class Registration extends HttpServlet
         String info =req.getParameter("info");
         boolean foundLoginMail=false;
 
-        try {
-            Class.forName("org.h2.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         String realPassAuthDB="";
         Statement statement = DBConnection.getStatement();
         try {
