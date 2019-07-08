@@ -1,6 +1,8 @@
 package storage;
 
 
+import storage.entities.UserInfo;
+
 /**
  * Интерфейс для Storage для работы с txt файлом
  */
@@ -12,12 +14,12 @@ class StorageTxtFile implements Storage {
     }
 
     @Override
-    public UserInStorage getInfoUserByName(String name) {
+    public UserInfo getInfoUserByName(String name) {
         return null;
     }
 
     @Override
-    public UserInStorage getInfoUserByToken(String token) {
+    public UserInfo getInfoUserByToken(String token) {
         return null;
     }
 

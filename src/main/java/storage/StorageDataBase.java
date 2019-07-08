@@ -1,5 +1,9 @@
 package storage;
 
+import storage.entities.UserInfo;
+import storage.entities.UserPass;
+import storage.entities.UserToken;
+
 import java.sql.*;
 import java.util.UUID;
 
@@ -42,16 +46,12 @@ class StorageDataBase implements Storage {
 
     }
 
+
     @Override
-    public boolean addUser(String userName, String userMail, String userInfo, String userPass, String userToken) {
-
-        String newUserId = UUID.randomUUID().toString();
-        String newUserPassId = UUID.randomUUID().toString();
-        String newUserTokenId = UUID.randomUUID().toString();
-
-        String sqlInsertUserInfo = "INSERT INTO USER_INFO VALUES ( '" + newUserId + "', '" + userName + "', '" + userMail + "', '" + userInfo + "');\n";
-        String sqlInserUserPass = "INSERT INTO USER_PASS values ('" + newUserPassId + "', '" + newUserId + "', '" + userPass + "');\n";
-        String sqlInserUserToken = "INSERT INTO USER_TOKEN values ('" + newUserTokenId + "', '" + newUserId + "', '" + userToken + "');\n";
+    public boolean addUser(UserInfo userInfo, UserPass userPass, UserToken userToken) {
+        String sqlInsertUserInfo = "INSERT INTO USER_INFO VALUES ( '" + userInfo.getId() + "', '" + userInfo.getName() + "', '" + userInfo.getMail() + "', '" + userInfo.getInfo() + "');\n";
+        String sqlInserUserPass = "INSERT INTO USER_PASS values ('" + userPass.getId() + "', '" + userPass.getIdUser() + "', '" + userPass.getPass() + "');\n";
+        String sqlInserUserToken = "INSERT INTO USER_TOKEN values ('" + userToken.getId() + "', '" + userToken.getIdUser() + "', '" + userToken.getToken() + "');\n";
 
         try {
             Statement statement = getConnection().createStatement();
@@ -70,7 +70,7 @@ class StorageDataBase implements Storage {
     }
 
     @Override
-    public UserInStorage getInfoUserByName(String name) {
+    public UserInfo getInfoUserByName(String name) {
 
         ResultSet resultSet = null;
         try {
@@ -79,7 +79,7 @@ class StorageDataBase implements Storage {
             resultSet = statement.executeQuery("SELECT * FROM USER_INFO WHERE NAME = '" + name + "';\n");
 
             while (resultSet.next()) {
-                return new UserInStorage(resultSet.getString("ID"), resultSet.getString("NAME"), resultSet.getString("MAIL"), resultSet.getString("INFO"));
+                return new UserInfo(resultSet.getString("ID"), resultSet.getString("NAME"), resultSet.getString("MAIL"), resultSet.getString("INFO"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ class StorageDataBase implements Storage {
     }
 
     @Override
-    public UserInStorage getInfoUserByToken(String token) {
+    public UserInfo getInfoUserByToken(String token) {
         ResultSet resultSet = null;
         try {
             Statement statement = getConnection().createStatement();
@@ -98,7 +98,7 @@ class StorageDataBase implements Storage {
             resultSet = statement.executeQuery("SELECT ID_USER FROM USER_TOKEN WHERE token = '" + token + "';\n");
 
             while (resultSet.next()) {
-                return new UserInStorage(resultSet.getString("ID"), resultSet.getString("NAME"), resultSet.getString("MAIL"), resultSet.getString("INFO"));
+                return new UserInfo(resultSet.getString("ID"), resultSet.getString("NAME"), resultSet.getString("MAIL"), resultSet.getString("INFO"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,15 +109,15 @@ class StorageDataBase implements Storage {
     }
 
     @Override
-    public String getPass(String name) {
+    public UserPass getPass(String name) {
 
         ResultSet resultSet = null;
         try {
             Statement statement = getConnection().createStatement();
 
-            resultSet = statement.executeQuery("SELECT up.PASS FROM (SELECT ID FROM USER_INFO WHERE NAME = '" + name + "') ui, (SELECT * FROM USER_PASS ) up WHERE ui.ID = up.ID_USER ;\n");
+            resultSet = statement.executeQuery("SELECT * FROM (SELECT ID FROM USER_INFO WHERE NAME = '" + name + "') ui, (SELECT * FROM USER_PASS ) up WHERE ui.ID = up.ID_USER ;\n");
             resultSet.next();
-            return resultSet.getString("PASS");
+            return new UserPass(resultSet.getString("ID"), resultSet.getString("ID_USER"), resultSet.getString("PASS"));
 
         } catch (SQLException e) {
             e.printStackTrace();

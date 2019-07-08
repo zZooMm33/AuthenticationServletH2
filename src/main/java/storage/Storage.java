@@ -1,5 +1,9 @@
 package storage;
 
+import storage.entities.UserInfo;
+import storage.entities.UserPass;
+import storage.entities.UserToken;
+
 /**
  * Интерфейс для работы с БД/txt...
  */
@@ -7,14 +11,12 @@ public interface Storage {
     /**
      * Добавляет нового пользователя
      *
-     * @param userName  Имя пользователя
-     * @param userMail  Почта пользователя
      * @param userInfo  Информация пользователя
      * @param userPass  Пароль пользователя
      * @param userToken Токен пользователя
      * @return Удалось ли добавить пользователя
      */
-    public boolean addUser(String userName, String userMail, String userInfo, String userPass, String userToken);
+    public boolean addUser(UserInfo userInfo, UserPass userPass, UserToken userToken);
 
     /**
      * Вернет пользователя по его имени
@@ -22,7 +24,7 @@ public interface Storage {
      * @param name Имя пользователя
      * @return Вернет true, если удалось добавить пользователя
      */
-    public UserInStorage getInfoUserByName(String name);
+    public UserInfo getInfoUserByName(String name);
 
     /**
      * Вернет пользователя по его токену
@@ -30,15 +32,15 @@ public interface Storage {
      * @param token токен пользователя
      * @return Вернет пользователя
      */
-    public UserInStorage getInfoUserByToken(String token);
+    public UserInfo getInfoUserByToken(String token);
 
     /**
      * Вернет пароль пользователя
      *
      * @param name Имя пользователя
-     * @return Вернет пароль пользователя
+     * @return Вернет сущность UserPass
      */
-    public String getPass(String name);
+    public UserPass getPass(String name);
 
     /**
      * Изменит токен по имени пользователя
