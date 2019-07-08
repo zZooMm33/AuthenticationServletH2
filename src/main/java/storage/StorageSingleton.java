@@ -3,8 +3,7 @@ package storage;
 /**
  * Класс для работы с Storage
  */
-public class StorageSingleton
-{
+public class StorageSingleton {
     /**
      * Storage с которым надо работать
      */
@@ -15,10 +14,8 @@ public class StorageSingleton
      *
      * @return Вернет Storage
      */
-    public static Storage getStorageSingleton()
-    {
-        if (storageSingleton == null)
-        {
+    public static Storage getStorageSingleton() {
+        if (storageSingleton == null) {
             storageSingleton = new FactoryStorage().factoryMethod();
         }
 
