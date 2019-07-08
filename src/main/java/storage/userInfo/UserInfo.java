@@ -1,4 +1,4 @@
-package storage.entities;
+package storage.userInfo;
 
 import java.util.UUID;
 
@@ -39,7 +39,8 @@ public class UserInfo {
 
     /**
      * Конструктор для создания пользователя
-     * @param id id пользователя
+     *
+     * @param id   id пользователя
      * @param name Имя пользователя
      * @param mail Почта пользователя
      * @param info Информация пользователя

@@ -10,6 +10,7 @@ import java.util.Properties;
 public class PropReader {
 
     private static final String PROP_FILE_NAME = "config.properties";
+
     /**
      * Вернет строку по ключу из config.properties
      *
