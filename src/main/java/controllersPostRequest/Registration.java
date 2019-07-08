@@ -1,17 +1,20 @@
+package controllersPostRequest;
+
+import encode.EncoderPass;
+import storage.AuthDB;
+import storage.DBConnection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Base64;
-import java.util.UUID;
 
 @WebServlet(urlPatterns = "/regPost")
 public class Registration extends HttpServlet
@@ -36,7 +39,7 @@ public class Registration extends HttpServlet
                 foundLoginMail=true;
             }
 
-            resultSet=AuthDB.checkUserName(statement,login);
+            resultSet= AuthDB.checkUserName(statement,login);
             while (resultSet.next()){
                 resultSet.getString("NAME");
                 resp.getWriter().append("login");
@@ -46,8 +49,6 @@ public class Registration extends HttpServlet
         }
         catch (SQLException e){
             //e.printStackTrace();
-
-
         }
         try {
             if(!foundLoginMail)
@@ -57,15 +58,7 @@ public class Registration extends HttpServlet
                 userResult.next();
                 String id=userResult.getString("ID");
 
-                MessageDigest digest = null;
-                try {
-                    digest = MessageDigest.getInstance("SHA-256");
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                pass+="secretCode";
-                byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-                String encodedPass = Base64.getEncoder().encodeToString(hash);
+                String encodedPass = EncoderPass.encode(pass);
 
                 AuthDB.insertUserPass(statement,id,encodedPass);
                 AuthDB.insertUserToken(statement,id,"nechevo");
@@ -79,17 +72,9 @@ public class Registration extends HttpServlet
                 ResultSet userResult = AuthDB.getInfoUserByName(statement,login);
                 userResult.next();
                 String id=userResult.getString("ID");
-                MessageDigest digest = null;
-                try {
-                    digest = MessageDigest.getInstance("SHA-256");
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                pass+="secretCode";
-                byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-                String encodedPass = Base64.getEncoder().encodeToString(hash);
-                AuthDB.insertUserPass(statement,id,encodedPass);
 
+                String encodedPass = EncoderPass.encode(pass);
+                AuthDB.insertUserPass(statement,id,encodedPass);
                 AuthDB.insertUserToken(statement,id,"nechevo");
             } catch (SQLException e) {
                 e.printStackTrace();

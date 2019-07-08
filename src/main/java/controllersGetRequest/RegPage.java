@@ -1,8 +1,13 @@
+package controllersGetRequest;
+
+import clientInfo.ClientCookie;
+import clientInfo.ClientSession;
+import freeMarker.FreeM;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.text.MessageFormat;
 
 @WebServlet(urlPatterns = "/reg")
 public class RegPage extends HttpServlet
@@ -13,28 +18,16 @@ public class RegPage extends HttpServlet
         FreeM freeMarker=new FreeM("Registration.ftl",this);
         String webAddress=""+req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/AuthenticationServletH2/";
         freeMarker.initMap(webAddress);
+        ClientSession.setSessionIfNotSet(req.getSession());
 
-        HttpSession session=req.getSession();
         boolean redirectToUser=false;
-        if(session.getAttribute("token")!=null) {
+        if(ClientSession.checkToken()) {
             redirectToUser=true;
-            Cookie cook=new Cookie("token",session.getAttribute("token").toString());
-            resp.addCookie(cook);
-
+            ClientCookie.setCookie(resp,"token",ClientSession.getFromSession("token"));
         }
         else{
-            try {
-                Cookie[] cookies=req.getCookies();
-                for (int i = 0; i < cookies.length; i++) {
-                    if(cookies[i].getName().equals("token")){
-                        redirectToUser=true;
-                    }
-                }
-            }
-            catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
+            if(!ClientCookie.getCookieIfExist(req,"token").equals(""))
+                redirectToUser=true;
         }
         if(redirectToUser){
             resp.sendRedirect(webAddress+"user");

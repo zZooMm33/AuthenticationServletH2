@@ -1,40 +1,35 @@
-import org.h2.engine.Session;
+package controllersPostRequest;
+
+import clientInfo.ClientCookie;
+import clientInfo.ClientSession;
+import storage.AuthDB;
+import storage.DBConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.UUID;
 
 @WebServlet(urlPatterns = "/logout")
 public class Logout extends HttpServlet
 {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session=req.getSession(true);
+
         try {
             Class.forName("org.h2.Driver");
             Statement statement = DBConnection.getStatement();
             Cookie[] cookies = req.getCookies();
-            String token="";
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("token")) {
-                        token=cookie.getValue().toString();
-                    }
-                }
-            }
+            String token=ClientCookie.getCookieIfExist(req,"token");
 
             AuthDB.updateTokenByToken(statement,token,"");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        Cookie ck=new Cookie("token","");
-        ck.setMaxAge(0);
-        resp.addCookie(ck);
-
-        session.invalidate();
+        ClientCookie.removeCookie(resp,"token");
+        ClientSession.setSessionIfNotSet(req.getSession());
+        ClientSession.clearSession();
     }
 }

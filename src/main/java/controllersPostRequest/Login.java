@@ -1,4 +1,10 @@
-import org.h2.engine.Session;
+package controllersPostRequest;
+
+import clientInfo.ClientCookie;
+import clientInfo.ClientSession;
+import encode.EncoderPass;
+import storage.AuthDB;
+import storage.DBConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,55 +27,46 @@ public class Login extends HttpServlet
         String login =req.getParameter("login");
         String pass =req.getParameter("pass");
         boolean foundLogin=false;
-
+        ClientSession.setSessionIfNotSet(req.getSession());
         try {
             Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String realPassAuthDB="";
-
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        pass+="secretCode";
-        byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-        String encodedPass = Base64.getEncoder().encodeToString(hash);
+        String realPassAuthEncoded="";
+        String encodedPass = EncoderPass.encode(pass);
 
         Statement statement = DBConnection.getStatement();
             try {
-                realPassAuthDB = AuthDB.getPass(statement, login);
-                foundLogin = realPassAuthDB != null;
+                realPassAuthEncoded = AuthDB.getPass(statement, login);
+                //TODO norm proverky after yarik sdelaet db
+                foundLogin = realPassAuthEncoded != null;
             }
             catch (SQLException e){
                 resp.getWriter().append("loginFail");
             }
             try {
-            if(encodedPass.equals(realPassAuthDB)){
-                HttpSession session=req.getSession();
-                ResultSet resultSetInfo=AuthDB.getInfoUserByName(statement,login);
+            if(encodedPass.equals(realPassAuthEncoded)){
+
+                ResultSet resultSetInfo= AuthDB.getInfoUserByName(statement,login);
                 resultSetInfo.next();
 
-                session.setAttribute("name",resultSetInfo.getString("NAME"));
-                session.setAttribute("mail",resultSetInfo.getString("MAIL"));
-                session.setAttribute("info",resultSetInfo.getString("INFO"));
+                ClientSession.addToSession("name",resultSetInfo.getString("NAME"));
+                ClientSession.addToSession("mail",resultSetInfo.getString("MAIL"));
+                ClientSession.addToSession("info",resultSetInfo.getString("INFO"));
 
                 String token=UUID.randomUUID().toString().toUpperCase();
-                session.setAttribute("token",token);
+                ClientSession.addToSession("token",token);
                 AuthDB.updateTokenByIdUser(statement,resultSetInfo.getString("ID"),token);
 
-                Cookie ck=new Cookie("token",token);
-                resp.addCookie(ck);
+                ClientCookie.setCookie(resp,"token",token);
+
                 }
             else {
                 resp.getWriter().append("passFail");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            PrintWriter writer = resp.getWriter();
             resp.getWriter().append("passFail");
 
         }
