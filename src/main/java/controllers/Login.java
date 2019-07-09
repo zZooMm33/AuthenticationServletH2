@@ -1,4 +1,4 @@
-package controllersPostRequest;
+package controllers;
 
 import storage.StorageSingleton;
 import storage.userInfo.UserInfo;

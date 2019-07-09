@@ -10,8 +10,8 @@ import java.util.Base64;
  */
 public class EncoderPass
 {
-    public static String salt = "";
-
+    private static String SALT = "secretCode";
+    private static String INSTANCE = "SHA-256";
     /**
      * Зашифровать строку
      *
@@ -21,23 +21,23 @@ public class EncoderPass
     public static String encode(String value)
     {
 
-        if (salt.equals("")) setSaltFromProp();
+        if (SALT.equals("")) setSaltFromProp();
         MessageDigest digest = null;
         try
         {
-            digest = MessageDigest.getInstance("SHA-256");
+            digest = MessageDigest.getInstance(INSTANCE);
         } catch (NoSuchAlgorithmException e)
         {
             e.printStackTrace();
             return null;
         }
-        value += salt;
+        value += SALT;
         byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
     }
 
     private static void setSaltFromProp()
     {
-        salt = "secretCode";
+        SALT = "secretCode";
     }
 }

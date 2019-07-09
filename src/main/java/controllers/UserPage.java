@@ -1,4 +1,4 @@
-package controllersGetRequest;
+package controllers;
 
 
 import storage.userInfo.UserInfo;

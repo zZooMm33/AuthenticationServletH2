@@ -1,4 +1,4 @@
-package controllersPostRequest;
+package controllers;
 
 import utils.ClientCookie;
 import utils.ClientSession;

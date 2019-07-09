@@ -22,6 +22,7 @@ public class FreeM
 
     private Map<String, Object> freeMarkerMap = null;
 
+    private static final String WEB_ADDRESS = "webAddress";
     /**
      * Конструктор инициализирующий класс
      *
@@ -63,7 +64,7 @@ public class FreeM
                 break;
         }
 
-        freeMarkerMap.put("webAddress", webAddress);
+        freeMarkerMap.put(WEB_ADDRESS, webAddress);
     }
 
     /**
@@ -73,7 +74,7 @@ public class FreeM
      */
     public void initMap(String webAddress)
     {
-        freeMarkerMap.put("webAddress", webAddress);
+        freeMarkerMap.put(WEB_ADDRESS, webAddress);
     }
 
     /**
