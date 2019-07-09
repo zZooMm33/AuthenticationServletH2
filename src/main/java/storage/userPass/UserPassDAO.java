@@ -3,7 +3,7 @@ package storage.userPass;
 /**
  * Интерфейс для сущности UserPass
  */
-public interface UserPassImpl {
+public interface UserPassDAO {
 
     /**
      * Добавляет пароль для пользователя

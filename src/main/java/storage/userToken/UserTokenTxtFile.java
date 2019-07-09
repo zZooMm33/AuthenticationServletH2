@@ -1,6 +1,6 @@
 package storage.userToken;
 
-public class UserTokenTxtFile implements UserTokenImpl {
+public class UserTokenTxtFile implements UserTokenDAO {
     @Override
     public boolean addUserToken(UserToken userToken) {
         return false;

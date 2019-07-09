@@ -3,15 +3,15 @@ package storage.userInfo;
 import storage.PropReader;
 
 /**
- * Фабрика для интерфейса UserInfoImpl
+ * Фабрика для интерфейса UserInfoDAO
  */
 public class UserInfoFactory {
     /**
-     * Вернет интерфейсе для UserInfoImpl
+     * Вернет интерфейсе для UserInfoDAO
      *
-     * @return Вернет интерфейсе для UserInfoImpl в зависимаости от настроек в config.properties
+     * @return Вернет интерфейсе для UserInfoDAO в зависимаости от настроек в config.properties
      */
-    public UserInfoImpl factoryMethod() {
+    public UserInfoDAO factoryMethod() {
 
         String storageType = PropReader.getVal("storageType");
 

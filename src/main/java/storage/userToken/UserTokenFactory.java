@@ -3,15 +3,15 @@ package storage.userToken;
 import storage.PropReader;
 
 /**
- * Фабрика для интерфейса UserTokenImpl
+ * Фабрика для интерфейса UserTokenDAO
  */
 public class UserTokenFactory {
     /**
-     * Вернет интерфейсе для UserTokenImpl
+     * Вернет интерфейсе для UserTokenDAO
      *
-     * @return Вернет интерфейсе для UserTokenImpl в зависимаости от настроек в config.properties
+     * @return Вернет интерфейсе для UserTokenDAO в зависимаости от настроек в config.properties
      */
-    public UserTokenImpl factoryMethod() {
+    public UserTokenDAO factoryMethod() {
 
         String storageType = PropReader.getVal("storageType");
 

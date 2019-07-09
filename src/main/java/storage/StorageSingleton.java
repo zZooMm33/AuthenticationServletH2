@@ -1,11 +1,11 @@
 package storage;
 
 import storage.userInfo.UserInfoFactory;
-import storage.userInfo.UserInfoImpl;
+import storage.userInfo.UserInfoDAO;
+import storage.userPass.UserPassDAO;
 import storage.userPass.UserPassFactory;
-import storage.userPass.UserPassImpl;
 import storage.userToken.UserTokenFactory;
-import storage.userToken.UserTokenImpl;
+import storage.userToken.UserTokenDAO;
 
 /**
  * Класс для работы с сущностями
@@ -13,22 +13,22 @@ import storage.userToken.UserTokenImpl;
 public class StorageSingleton {
 
     /**
-     * Синглтон интерфейса UserInfoImpl
+     * Синглтон интерфейса UserInfoDAO
      */
-    private static UserInfoImpl userInfoSingleton = null;
+    private static UserInfoDAO userInfoSingleton = null;
     /**
-     * Синглтон интерфейса UserPassImpl
+     * Синглтон интерфейса UserPassDAO
      */
-    private static UserPassImpl userPassSingleton = null;
+    private static UserPassDAO userPassSingleton = null;
     /**
-     * Синглтон интерфейса UserTokenImpl
+     * Синглтон интерфейса UserTokenDAO
      */
-    private static UserTokenImpl userTokenSingleton = null;
+    private static UserTokenDAO userTokenSingleton = null;
 
     /**
-     * @return Вернет UserInfoImpl, если его нет, то создаст
+     * @return Вернет UserInfoDAO, если его нет, то создаст
      */
-    public static UserInfoImpl getUserInfoSingleton() {
+    public static UserInfoDAO getUserInfoSingleton() {
         if (userInfoSingleton == null) {
             userInfoSingleton = new UserInfoFactory().factoryMethod();
         }
@@ -37,9 +37,9 @@ public class StorageSingleton {
     }
 
     /**
-     * @return Вернет UserPassImpl, если его нет, то создаст
+     * @return Вернет UserPassDAO, если его нет, то создаст
      */
-    public static UserPassImpl getUserPassSingleton() {
+    public static UserPassDAO getUserPassSingleton() {
         if (userPassSingleton == null) {
             userPassSingleton = new UserPassFactory().factoryMethod();
         }
@@ -48,9 +48,9 @@ public class StorageSingleton {
     }
 
     /**
-     * @return Вернет UserTokenImpl, если его нет, то создаст
+     * @return Вернет UserTokenDAO, если его нет, то создаст
      */
-    public static UserTokenImpl getUserTokenSingleton() {
+    public static UserTokenDAO getUserTokenSingleton() {
         if (userTokenSingleton == null) {
             userTokenSingleton = new UserTokenFactory().factoryMethod();
         }

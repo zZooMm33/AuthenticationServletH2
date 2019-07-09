@@ -5,7 +5,7 @@ import storage.ConnectionDataBase;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserTokenDataBase implements UserTokenImpl {
+public class UserTokenDataBase implements UserTokenDAO {
     @Override
     public boolean addUserToken(UserToken userToken) {
         String sqlInserUserToken = "INSERT INTO USER_TOKEN values ('" + userToken.getId() + "', '" + userToken.getIdUser() + "', '" + userToken.getToken() + "');\n";

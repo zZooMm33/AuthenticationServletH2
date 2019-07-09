@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserInfoDataBase implements UserInfoImpl {
+public class UserInfoDataBase implements UserInfoDAO {
 
     @Override
     public boolean addUserInfo(UserInfo userInfo) {

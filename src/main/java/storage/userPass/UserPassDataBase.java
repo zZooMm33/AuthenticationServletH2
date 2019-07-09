@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserPassDataBase implements UserPassImpl {
+public class UserPassDataBase implements UserPassDAO {
     @Override
     public boolean addUserPass(UserPass userPass) {
         String sqlInserUserPass = "INSERT INTO USER_PASS values ('" + userPass.getId() + "', '" + userPass.getIdUser() + "', '" + userPass.getPass() + "');\n";

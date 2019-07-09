@@ -1,6 +1,6 @@
 package storage.userInfo;
 
-public class UserInfoTxtFile implements UserInfoImpl {
+public class UserInfoTxtFile implements UserInfoDAO {
     @Override
     public boolean addUserInfo(UserInfo userInfo) {
         return false;

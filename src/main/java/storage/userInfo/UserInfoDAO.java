@@ -3,7 +3,7 @@ package storage.userInfo;
 /**
  * Интерфейс для сущности UserInfo
  */
-public interface UserInfoImpl {
+public interface UserInfoDAO {
     /**
      * Добавляет нового пользователя
      *
