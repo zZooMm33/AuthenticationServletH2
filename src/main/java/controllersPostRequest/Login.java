@@ -25,7 +25,7 @@ public class Login extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-
+//kek
         String login = req.getParameter("login");
         String pass = req.getParameter("pass");
         boolean foundLogin = false;
