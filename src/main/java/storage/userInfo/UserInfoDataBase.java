@@ -51,7 +51,7 @@ public class UserInfoDataBase implements UserInfoImpl {
         try {
             Statement statement = ConnectionDataBase.getConnection().createStatement();
 
-            resultSet = statement.executeQuery("SELECT ID_USER FROM USER_TOKEN WHERE token = '" + token + "';\n");
+            resultSet = statement.executeQuery("SELECT * FROM USER_INFO UI, (SELECT * FROM USER_TOKEN WHERE TOKEN = '" + token +"') UT WHERE UT.ID_USER = UI.ID;\n");
 
             while (resultSet.next()) {
                 return new UserInfo(resultSet.getString("ID"), resultSet.getString("NAME"), resultSet.getString("MAIL"), resultSet.getString("INFO"));
