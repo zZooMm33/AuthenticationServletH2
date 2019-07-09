@@ -5,13 +5,15 @@ import storage.PropReader;
 /**
  * Фабрика для интерфейса UserInfoDAO
  */
-public class UserInfoFactory {
+public class UserInfoFactory
+{
     /**
      * Вернет интерфейсе для UserInfoDAO
      *
      * @return Вернет интерфейсе для UserInfoDAO в зависимаости от настроек в config.properties
      */
-    public UserInfoDAO factoryMethod() {
+    public UserInfoDAO factoryMethod()
+    {
 
         String storageType = PropReader.getVal("storageType");
 

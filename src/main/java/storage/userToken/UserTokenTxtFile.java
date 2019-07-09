@@ -1,18 +1,22 @@
 package storage.userToken;
 
-public class UserTokenTxtFile implements UserTokenDAO {
+public class UserTokenTxtFile implements UserTokenDAO
+{
     @Override
-    public boolean addUserToken(UserToken userToken) {
+    public boolean addUserToken(UserToken userToken)
+    {
         return false;
     }
 
     @Override
-    public boolean updateTokenByIdUser(UserToken userToken) {
+    public boolean updateTokenByIdUser(UserToken userToken)
+    {
         return false;
     }
 
     @Override
-    public boolean updateTokenByToken(String oldToken, String newToken) {
+    public boolean updateTokenByToken(String oldToken, String newToken)
+    {
         return false;
     }
 }

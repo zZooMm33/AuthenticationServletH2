@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Класс реализующий работу с куки
  */
-public class ClientCookie {
+public class ClientCookie
+{
     /**
      * Выставить куку
      *
@@ -15,9 +16,10 @@ public class ClientCookie {
      * @param key   ключ
      * @param value значение
      */
-    public static void setCookie(HttpServletResponse resp, String key, String value) {
+    public static void setCookie(HttpServletResponse resp, String key, String value)
+    {
         Cookie cook = new Cookie(key, value);
-        cook.setMaxAge(60*60*24*7);
+        cook.setMaxAge(60 * 60 * 24 * 7);
         resp.addCookie(cook);
     }
 
@@ -27,7 +29,8 @@ public class ClientCookie {
      * @param resp ответ из сервлета
      * @param key  ключ
      */
-    public static void removeCookie(HttpServletResponse resp, String key) {
+    public static void removeCookie(HttpServletResponse resp, String key)
+    {
         Cookie cook = new Cookie(key, "");
         cook.setMaxAge(0);
         resp.addCookie(cook);
@@ -40,16 +43,21 @@ public class ClientCookie {
      * @param key ключ
      * @return значение куки
      */
-    public static String getCookieIfExist(HttpServletRequest req, String key) {
-        try {
+    public static String getCookieIfExist(HttpServletRequest req, String key)
+    {
+        try
+        {
             Cookie[] cookies = req.getCookies();
             if (cookies != null)
-                for (int i = 0; i < cookies.length; i++) {
-                    if (cookies[i].getName().equals(key)) {
+                for (int i = 0; i < cookies.length; i++)
+                {
+                    if (cookies[i].getName().equals(key))
+                    {
                         return cookies[i].getValue();
                     }
                 }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e)
+        {
             e.printStackTrace();
             return null;
         }

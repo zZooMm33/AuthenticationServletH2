@@ -116,6 +116,10 @@
                             else if (data.indexOf("mail") != -1){
                                 $("#infoError").text("This email is already in use!");
                                 $("#infoError").show();
+                            }//
+                            else if (data.indexOf("sqlError") != -1){
+                                $("#infoError").text("Unknown error, please try again later.");
+                                $("#infoError").show();
                             }
                         }
                         else {

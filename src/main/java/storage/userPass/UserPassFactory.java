@@ -5,13 +5,15 @@ import storage.PropReader;
 /**
  * Фабрика для интерфейса UserPassDAO
  */
-public class UserPassFactory {
+public class UserPassFactory
+{
     /**
      * Вернет интерфейсе для UserPassDAO
      *
      * @return Вернет интерфейсе для UserPassDAO в зависимаости от настроек в config.properties
      */
-    public UserPassDAO factoryMethod() {
+    public UserPassDAO factoryMethod()
+    {
 
         String storageType = PropReader.getVal("storageType");
 
