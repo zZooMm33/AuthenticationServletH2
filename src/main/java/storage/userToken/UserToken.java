@@ -5,7 +5,8 @@ import java.util.UUID;
 /**
  * Таблица токенов пользователей
  */
-public class UserToken {
+public class UserToken
+{
     /**
      * id в таблице UserToken
      */
@@ -24,7 +25,8 @@ public class UserToken {
      * @param idUser id пользователя
      * @param token  Токен пользователя
      */
-    public UserToken(String id, String idUser, String token) {
+    public UserToken(String id, String idUser, String token)
+    {
         this.id = id;
         this.idUser = idUser;
         this.token = token;
@@ -34,7 +36,8 @@ public class UserToken {
      * @param idUser id пользователя
      * @param token  Токен пользователя
      */
-    public UserToken(String idUser, String token) {
+    public UserToken(String idUser, String token)
+    {
         this.id = UUID.randomUUID().toString();
         this.idUser = idUser;
         this.token = token;
@@ -43,7 +46,8 @@ public class UserToken {
     /**
      * @return Вернет id из таблицы UserToken
      */
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
@@ -52,14 +56,16 @@ public class UserToken {
      *
      * @param id новый id
      */
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
     /**
      * @return Вернет id пользователя
      */
-    public String getIdUser() {
+    public String getIdUser()
+    {
         return idUser;
     }
 
@@ -67,21 +73,24 @@ public class UserToken {
     /**
      * @param idUser Новый id пользователя
      */
-    public void setIdUser(String idUser) {
+    public void setIdUser(String idUser)
+    {
         this.idUser = idUser;
     }
 
     /**
      * @return Вернет токен пользователя
      */
-    public String getToken() {
+    public String getToken()
+    {
         return token;
     }
 
     /**
      * @param token Новый токен
      */
-    public void setToken(String token) {
+    public void setToken(String token)
+    {
         this.token = token;
     }
 }

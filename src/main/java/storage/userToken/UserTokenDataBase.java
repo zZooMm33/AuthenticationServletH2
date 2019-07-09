@@ -6,12 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserTokenDataBase implements UserTokenDAO {
+public class UserTokenDataBase implements UserTokenDAO
+{
     @Override
-    public boolean addUserToken(UserToken userToken) {
+    public boolean addUserToken(UserToken userToken)
+    {
 
 
-        try {
+        try
+        {
 
             String sqlInserUserToken = "INSERT INTO USER_TOKEN values (?, ?, ?);\n";
 
@@ -23,7 +26,8 @@ public class UserTokenDataBase implements UserTokenDAO {
             addUserPass.executeUpdate();
 
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
             return false;
         }
@@ -32,28 +36,34 @@ public class UserTokenDataBase implements UserTokenDAO {
     }
 
     @Override
-    public boolean updateTokenByIdUser(UserToken userToken) {
+    public boolean updateTokenByIdUser(UserToken userToken)
+    {
         String sql = "UPDATE USER_TOKEN SET TOKEN = '" + userToken.getToken() + "' WHERE ID_USER = '" + userToken.getIdUser() + "';\n";
-        try {
+        try
+        {
             Statement statement = ConnectionDataBase.getConnection().createStatement();
 
             statement.execute(sql);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public boolean updateTokenByToken(String oldToken, String newToken) {
+    public boolean updateTokenByToken(String oldToken, String newToken)
+    {
         String sql = "UPDATE USER_TOKEN SET TOKEN = '" + newToken + "' WHERE TOKEN = '" + oldToken + "';\n";
-        try {
+        try
+        {
             Statement statement = ConnectionDataBase.getConnection().createStatement();
 
             statement.execute(sql);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
             return false;
         }

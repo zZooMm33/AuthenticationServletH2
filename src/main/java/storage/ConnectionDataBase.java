@@ -7,7 +7,8 @@ import java.sql.SQLException;
 /**
  * Класс для подключения к БД
  */
-public class ConnectionDataBase {
+public class ConnectionDataBase
+{
     /**
      * Синглтон для подключения к БД
      */
@@ -18,16 +19,20 @@ public class ConnectionDataBase {
      *
      * @return Connection or null
      */
-    public static Connection getConnection() {
-        try {
-            if (connection == null) {
+    public static Connection getConnection()
+    {
+        try
+        {
+            if (connection == null)
+            {
                 String host = PropReader.getVal("host"),
                         pass = PropReader.getVal("pass"),
                         user = PropReader.getVal("user");
 
                 Class.forName("org.h2.Driver");
 
-                if (pass.equals("null")) {
+                if (pass.equals("null"))
+                {
                     pass = null;
                 }
 
@@ -35,7 +40,8 @@ public class ConnectionDataBase {
             }
 
             return connection;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e)
+        {
             e.printStackTrace();
             return null;
         }

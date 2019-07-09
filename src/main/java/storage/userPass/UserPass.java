@@ -5,7 +5,8 @@ import java.util.UUID;
 /**
  * Таблица с паролями пользователей
  */
-public class UserPass {
+public class UserPass
+{
     /**
      * id в таблице
      */
@@ -25,7 +26,8 @@ public class UserPass {
      * @param idUser id пользователя
      * @param pass   Пароль пользователя
      */
-    public UserPass(String idUser, String pass) {
+    public UserPass(String idUser, String pass)
+    {
         this.id = UUID.randomUUID().toString();
         this.idUser = idUser;
         this.pass = pass;
@@ -38,7 +40,8 @@ public class UserPass {
      * @param idUser id пользователя
      * @param pass   Пароль в таблице
      */
-    public UserPass(String id, String idUser, String pass) {
+    public UserPass(String id, String idUser, String pass)
+    {
         this.id = id;
         this.idUser = idUser;
         this.pass = pass;
@@ -47,7 +50,8 @@ public class UserPass {
     /**
      * @return Вернет id из таблицы UserPass
      */
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
@@ -56,14 +60,16 @@ public class UserPass {
      *
      * @param id id из таблицы UserPass
      */
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
     /**
      * @return Вернет id пользователя из таблицы UserPass
      */
-    public String getIdUser() {
+    public String getIdUser()
+    {
         return idUser;
     }
 
@@ -72,14 +78,16 @@ public class UserPass {
      *
      * @param idUser id пользователя из таблицы UserPass
      */
-    public void setIdUser(String idUser) {
+    public void setIdUser(String idUser)
+    {
         this.idUser = idUser;
     }
 
     /**
      * @return Вернет пароль пользователя
      */
-    public String getPass() {
+    public String getPass()
+    {
         return pass;
     }
 
@@ -88,7 +96,8 @@ public class UserPass {
      *
      * @param pass Новый пароль
      */
-    public void setPass(String pass) {
+    public void setPass(String pass)
+    {
         this.pass = pass;
     }
 }

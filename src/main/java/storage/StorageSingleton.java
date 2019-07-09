@@ -1,16 +1,17 @@
 package storage;
 
-import storage.userInfo.UserInfoFactory;
 import storage.userInfo.UserInfoDAO;
+import storage.userInfo.UserInfoFactory;
 import storage.userPass.UserPassDAO;
 import storage.userPass.UserPassFactory;
-import storage.userToken.UserTokenFactory;
 import storage.userToken.UserTokenDAO;
+import storage.userToken.UserTokenFactory;
 
 /**
  * Класс для работы с сущностями
  */
-public class StorageSingleton {
+public class StorageSingleton
+{
 
     /**
      * Синглтон интерфейса UserInfoDAO
@@ -28,8 +29,10 @@ public class StorageSingleton {
     /**
      * @return Вернет UserInfoDAO, если его нет, то создаст
      */
-    public static UserInfoDAO getUserInfoSingleton() {
-        if (userInfoSingleton == null) {
+    public static UserInfoDAO getUserInfoSingleton()
+    {
+        if (userInfoSingleton == null)
+        {
             userInfoSingleton = new UserInfoFactory().factoryMethod();
         }
 
@@ -39,8 +42,10 @@ public class StorageSingleton {
     /**
      * @return Вернет UserPassDAO, если его нет, то создаст
      */
-    public static UserPassDAO getUserPassSingleton() {
-        if (userPassSingleton == null) {
+    public static UserPassDAO getUserPassSingleton()
+    {
+        if (userPassSingleton == null)
+        {
             userPassSingleton = new UserPassFactory().factoryMethod();
         }
 
@@ -50,8 +55,10 @@ public class StorageSingleton {
     /**
      * @return Вернет UserTokenDAO, если его нет, то создаст
      */
-    public static UserTokenDAO getUserTokenSingleton() {
-        if (userTokenSingleton == null) {
+    public static UserTokenDAO getUserTokenSingleton()
+    {
+        if (userTokenSingleton == null)
+        {
             userTokenSingleton = new UserTokenFactory().factoryMethod();
         }
 

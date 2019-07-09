@@ -3,7 +3,8 @@ package storage.userToken;
 /**
  * Интерфейс для сущности UserToken
  */
-public interface UserTokenDAO {
+public interface UserTokenDAO
+{
     /**
      * Добавляет токен для пользователя
      *

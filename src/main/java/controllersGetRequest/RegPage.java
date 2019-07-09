@@ -79,23 +79,31 @@ public class RegPage extends HttpServlet
         {
 
 
-            try {
+            try
+            {
                 String encodedPass = EncoderPass.encode(pass);
                 UserInfo userInTable = new UserInfo(login, mail, info);
-                StorageSingleton.getUserInfoSingleton().addUserInfo(userInTable);
+                boolean checker = true;
+                if (!StorageSingleton.getUserInfoSingleton().addUserInfo(userInTable))
+                    throw new SQLException();
 
-                StorageSingleton.getUserPassSingleton().addUserPass(new UserPass("0", encodedPass)); // Для руина транзакции
-                //StorageSingleton.getUserPassSingleton().addUserPass(new UserPass(userInTable.getId(), encodedPass));
 
-                StorageSingleton.getUserTokenSingleton().addUserToken(new UserToken(userInTable.getId(), "nechevo"));
+                if (!StorageSingleton.getUserPassSingleton().addUserPass(new UserPass(userInTable.getId(), encodedPass)))
+                    throw new SQLException();
+
+                if (!StorageSingleton.getUserTokenSingleton().addUserToken(new UserToken(userInTable.getId(), "nechevo")))
+                    throw new SQLException();
 
                 ConnectionDataBase.getConnection().commit();
                 ConnectionDataBase.getConnection().setAutoCommit(true);
-            } catch (SQLException e) {
+            } catch (SQLException e)
+            {
                 e.printStackTrace();
-                try {
+                try
+                {
                     ConnectionDataBase.getConnection().rollback();
-                } catch (SQLException ex) {
+                } catch (SQLException ex)
+                {
                     ex.printStackTrace();
                 }
                 resp.getWriter().append("sqlError");
