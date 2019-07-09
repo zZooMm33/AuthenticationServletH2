@@ -1,9 +1,11 @@
-package storage;
+package storage.userInfo;
+
+import java.util.UUID;
 
 /**
  * Пользователь
  */
-public class UserInStorage {
+public class UserInfo {
     /**
      * id пользователя
      */
@@ -24,12 +26,26 @@ public class UserInStorage {
     /**
      * Конструктор для создания пользователя
      *
+     * @param name Имя пользователя
+     * @param mail Почта пользователя
+     * @param info Информация пользователя
+     */
+    public UserInfo(String name, String mail, String info) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.mail = mail;
+        this.info = info;
+    }
+
+    /**
+     * Конструктор для создания пользователя
+     *
      * @param id   id пользователя
      * @param name Имя пользователя
      * @param mail Почта пользователя
      * @param info Информация пользователя
      */
-    public UserInStorage(String id, String name, String mail, String info) {
+    public UserInfo(String id, String name, String mail, String info) {
         this.id = id;
         this.name = name;
         this.mail = mail;
