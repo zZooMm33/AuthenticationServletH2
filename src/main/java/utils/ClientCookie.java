@@ -17,6 +17,7 @@ public class ClientCookie {
      */
     public static void setCookie(HttpServletResponse resp, String key, String value) {
         Cookie cook = new Cookie(key, value);
+        cook.setMaxAge(60*60*24*7);
         resp.addCookie(cook);
     }
 
