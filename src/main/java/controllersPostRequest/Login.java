@@ -61,9 +61,7 @@ public class Login extends HttpServlet
 
             } else
             {
-                System.out.println("1" + encodedPass + "\n" + "2" + realPassAuthEncoded);
                 resp.getWriter().append("passFail");
-
             }
         }
 

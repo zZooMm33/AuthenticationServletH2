@@ -21,8 +21,9 @@ public class UserPass {
 
     /**
      * Конструктор для таблицы UserPass с созданием id
+     *
      * @param idUser id пользователя
-     * @param pass Пароль пользователя
+     * @param pass   Пароль пользователя
      */
     public UserPass(String idUser, String pass) {
         this.id = UUID.randomUUID().toString();
@@ -32,9 +33,10 @@ public class UserPass {
 
     /**
      * Конструктор для таблицы UserPass с 3 параметрами
-     * @param id id в таблице
+     *
+     * @param id     id в таблице
      * @param idUser id пользователя
-     * @param pass Пароль в таблице
+     * @param pass   Пароль в таблице
      */
     public UserPass(String id, String idUser, String pass) {
         this.id = id;
@@ -51,6 +53,7 @@ public class UserPass {
 
     /**
      * Установит новый id
+     *
      * @param id id из таблицы UserPass
      */
     public void setId(String id) {
@@ -66,6 +69,7 @@ public class UserPass {
 
     /**
      * Установит новый id пользователя
+     *
      * @param idUser id пользователя из таблицы UserPass
      */
     public void setIdUser(String idUser) {
@@ -81,6 +85,7 @@ public class UserPass {
 
     /**
      * Установит новый пароль пользователя
+     *
      * @param pass Новый пароль
      */
     public void setPass(String pass) {

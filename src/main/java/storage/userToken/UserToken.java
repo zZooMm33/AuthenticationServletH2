@@ -18,10 +18,9 @@ public class UserToken {
     private String token;
 
     /**
-     *
-     * @param id id в таблице UserToken
+     * @param id     id в таблице UserToken
      * @param idUser id пользователя
-     * @param token Токен пользователя
+     * @param token  Токен пользователя
      */
     public UserToken(String id, String idUser, String token) {
         this.id = id;
@@ -30,9 +29,8 @@ public class UserToken {
     }
 
     /**
-     *
      * @param idUser id пользователя
-     * @param token Токен пользователя
+     * @param token  Токен пользователя
      */
     public UserToken(String idUser, String token) {
         this.idUser = idUser;
@@ -40,7 +38,6 @@ public class UserToken {
     }
 
     /**
-     *
      * @return Вернет id из таблицы UserToken
      */
     public String getId() {
@@ -57,7 +54,6 @@ public class UserToken {
     }
 
     /**
-     *
      * @return Вернет id пользователя
      */
     public String getIdUser() {
@@ -66,7 +62,6 @@ public class UserToken {
 
 
     /**
-     *
      * @param idUser Новый id пользователя
      */
     public void setIdUser(String idUser) {
@@ -74,7 +69,6 @@ public class UserToken {
     }
 
     /**
-     *
      * @return Вернет токен пользователя
      */
     public String getToken() {
@@ -82,7 +76,6 @@ public class UserToken {
     }
 
     /**
-     *
      * @param token Новый токен
      */
     public void setToken(String token) {
