@@ -31,6 +31,5 @@
 
 **_END_RESERVED FOR YARIK_**
 
-**_RESERVED FOR YARIK_**
+**_Инструкция по запуску_**
 
-**Инструкция по запуску**

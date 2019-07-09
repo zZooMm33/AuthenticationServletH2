@@ -17,6 +17,11 @@ gretty{
     httpPort = 8081
 }
 
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 

@@ -1,7 +1,7 @@
 .idea/
 .gradle/
 build/
-gradle/
+
 h2/
 db/
 pages/
