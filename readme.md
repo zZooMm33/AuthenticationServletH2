@@ -1,8 +1,10 @@
 **_AuthenticationServletH2_**
+
 Используемые модули и библиотеки для серверной части:
 - Java Servlet API 4.0.1
 - H2 Database Engine 1.4.199
 - Apache FreeMarker 2.3.28
+- Gretty 2.3.1
 
 Используемые модули и библиотеки в клиентской части:
 - Bootstrap 4.1.3
@@ -32,4 +34,9 @@
 **_END_RESERVED FOR YARIK_**
 
 **_Инструкция по запуску_**
-
+1. Распаковать архив 
+2. Изменить значения базы данных в `src/main/resources/config.properties` на необходимые
+3. Открыть консоль и ввести `gradlew build`
+4. Для запуска сервера ввести `gradlew appRun`
+5. Перейти по указанном адресу в браузере
+6. :+1:  
