@@ -11,7 +11,7 @@ import java.io.IOException;
  * Сервлет переадресующий на аутентификацию
  */
 @WebServlet(urlPatterns = "/")
-public class Main extends HttpServlet
+public class Redirect extends HttpServlet
 {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
