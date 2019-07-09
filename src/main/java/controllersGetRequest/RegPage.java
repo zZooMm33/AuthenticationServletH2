@@ -1,5 +1,6 @@
 package controllersGetRequest;
 
+import storage.ConnectionDataBase;
 import storage.StorageSingleton;
 import storage.userInfo.UserInfo;
 import storage.userPass.UserPass;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Сервлет реализующий страницу регистрации
@@ -75,13 +77,30 @@ public class RegPage extends HttpServlet
 
         if (!foundLoginMail)
         {
-            String encodedPass = EncoderPass.encode(pass);
-            UserInfo userInTable = new UserInfo(login, mail, info);
-            StorageSingleton.getUserInfoSingleton().addUserInfo(userInTable);
 
-            StorageSingleton.getUserPassSingleton().addUserPass(new UserPass(userInTable.getId(), encodedPass));
 
-            StorageSingleton.getUserTokenSingleton().addUserToken(new UserToken(userInTable.getId(), "nechevo"));
+            try {
+                String encodedPass = EncoderPass.encode(pass);
+                UserInfo userInTable = new UserInfo(login, mail, info);
+                StorageSingleton.getUserInfoSingleton().addUserInfo(userInTable);
+
+                StorageSingleton.getUserPassSingleton().addUserPass(new UserPass("0", encodedPass)); // Для руина транзакции
+                //StorageSingleton.getUserPassSingleton().addUserPass(new UserPass(userInTable.getId(), encodedPass));
+
+                StorageSingleton.getUserTokenSingleton().addUserToken(new UserToken(userInTable.getId(), "nechevo"));
+
+                ConnectionDataBase.getConnection().commit();
+                ConnectionDataBase.getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                try {
+                    ConnectionDataBase.getConnection().rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                resp.getWriter().append("sqlError");
+
+            }
         }
 
 

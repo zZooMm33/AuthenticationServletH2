@@ -2,17 +2,26 @@ package storage.userToken;
 
 import storage.ConnectionDataBase;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserTokenDataBase implements UserTokenDAO {
     @Override
     public boolean addUserToken(UserToken userToken) {
-        String sqlInserUserToken = "INSERT INTO USER_TOKEN values ('" + userToken.getId() + "', '" + userToken.getIdUser() + "', '" + userToken.getToken() + "');\n";
+
 
         try {
-            Statement statement = ConnectionDataBase.getConnection().createStatement();
-            statement.execute(sqlInserUserToken);
+
+            String sqlInserUserToken = "INSERT INTO USER_TOKEN values (?, ?, ?);\n";
+
+            PreparedStatement addUserPass = ConnectionDataBase.getConnection().prepareStatement(sqlInserUserToken);
+
+            addUserPass.setString(1, userToken.getId());
+            addUserPass.setString(2, userToken.getIdUser());
+            addUserPass.setString(3, userToken.getToken());
+            addUserPass.executeUpdate();
+
 
         } catch (SQLException e) {
             e.printStackTrace();
