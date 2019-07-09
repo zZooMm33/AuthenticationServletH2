@@ -1,11 +1,11 @@
 package controllersGetRequest;
 
 
+import storage.userInfo.UserInfo;
 import utils.ClientCookie;
 import utils.ClientSession;
 import utils.FreeM;
 import storage.StorageSingleton;
-import storage.UserInStorage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,8 +45,7 @@ public class UserPage extends HttpServlet
 
             if (tok != null)
             {
-
-                UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByToken(tok);
+                UserInfo user = StorageSingleton.getUserInfoSingleton().getInfoUserByToken(tok);
                 if (user != null)
                 {
 

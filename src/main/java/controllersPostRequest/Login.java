@@ -1,7 +1,9 @@
 package controllersPostRequest;
 
 import storage.StorageSingleton;
-import storage.UserInStorage;
+import storage.userInfo.UserInfo;
+import storage.userPass.UserPass;
+import storage.userToken.UserToken;
 import utils.ClientCookie;
 import utils.ClientSession;
 import utils.EncoderPass;
@@ -30,8 +32,9 @@ public class Login extends HttpServlet
         String realPassAuthEncoded = "";
         String encodedPass = EncoderPass.encode(pass);
 
-        realPassAuthEncoded = StorageSingleton.getStorageSingleton().getPass(login);
 
+        UserPass userPass = StorageSingleton.getUserPassSingleton().getPass(login);
+        realPassAuthEncoded = userPass != null ? userPass.getPass() : null;
         if (realPassAuthEncoded == null)
         {
             foundLogin = false;
@@ -41,7 +44,7 @@ public class Login extends HttpServlet
         {
             if (encodedPass.equals(realPassAuthEncoded))
             {
-                UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByName(login);
+                UserInfo user = StorageSingleton.getUserInfoSingleton().getInfoUserByName(login);
                 if (user != null)
                 {
                     ClientSession.addToSession(req, "name", user.getName());
@@ -50,8 +53,7 @@ public class Login extends HttpServlet
 
                     String token = UUID.randomUUID().toString().toUpperCase();
                     ClientSession.addToSession(req, "token", token);
-                    StorageSingleton.getStorageSingleton().updateTokenByIdUser(user.getId(), token);
-
+                    StorageSingleton.getUserTokenSingleton().updateTokenByIdUser(new UserToken(user.getId(), token));
                     ClientCookie.setCookie(resp, "token", token);
 
                 }

@@ -22,8 +22,7 @@ public class Logout extends HttpServlet
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         String token = ClientCookie.getCookieIfExist(req, "token");
-        StorageSingleton.getStorageSingleton().updateTokenByToken(token, "");
-
+        StorageSingleton.getUserTokenSingleton().updateTokenByToken(token, "");
         ClientCookie.removeCookie(resp, "token");
 
         ClientSession.clearSession(req);

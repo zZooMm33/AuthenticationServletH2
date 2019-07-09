@@ -5,6 +5,6 @@ gradle/
 h2/
 db/
 pages/
-
+out/
 TestDB.java
 *.iml

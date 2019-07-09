@@ -1,7 +1,9 @@
 package controllersGetRequest;
 
 import storage.StorageSingleton;
-import storage.UserInStorage;
+import storage.userInfo.UserInfo;
+import storage.userPass.UserPass;
+import storage.userToken.UserToken;
 import utils.ClientCookie;
 import utils.ClientSession;
 import utils.EncoderPass;
@@ -57,16 +59,15 @@ public class RegPage extends HttpServlet
 
 
         String realPassAuthDB = "";
-        UserInStorage user = StorageSingleton.getStorageSingleton().getInfoUserByToken(ClientCookie.getCookieIfExist(req, "token"));
+        UserInfo user = StorageSingleton.getUserInfoSingleton().getInfoUserByToken(ClientCookie.getCookieIfExist(req, "token"));
 
-
-        if (StorageSingleton.getStorageSingleton().checkMail(mail))
+        if (StorageSingleton.getUserInfoSingleton().checkMail(mail))
         {
             foundLoginMail = true;
             resp.getWriter().append("mail");
         }
 
-        if (StorageSingleton.getStorageSingleton().checkUserName(login))
+        if (StorageSingleton.getUserInfoSingleton().checkUserName(login))
         {
             foundLoginMail = true;
             resp.getWriter().append("login");
@@ -75,7 +76,12 @@ public class RegPage extends HttpServlet
         if (!foundLoginMail)
         {
             String encodedPass = EncoderPass.encode(pass);
-            StorageSingleton.getStorageSingleton().addUser(login, mail, info, encodedPass, "nechevo");
+            UserInfo userInTable = new UserInfo(login, mail, info);
+            StorageSingleton.getUserInfoSingleton().addUserInfo(userInTable);
+
+            StorageSingleton.getUserPassSingleton().addUserPass(new UserPass(userInTable.getId(), encodedPass));
+
+            StorageSingleton.getUserTokenSingleton().addUserToken(new UserToken(userInTable.getId(), "nechevo"));
         }
 
 
