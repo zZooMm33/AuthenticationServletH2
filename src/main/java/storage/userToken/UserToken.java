@@ -1,5 +1,7 @@
 package storage.userToken;
 
+import java.util.UUID;
+
 /**
  * Таблица токенов пользователей
  */
@@ -33,6 +35,7 @@ public class UserToken {
      * @param token  Токен пользователя
      */
     public UserToken(String idUser, String token) {
+        this.id = UUID.randomUUID().toString();
         this.idUser = idUser;
         this.token = token;
     }

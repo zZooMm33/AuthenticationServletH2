@@ -12,9 +12,7 @@ public class UserTokenDataBase implements UserTokenDAO {
 
         try {
             Statement statement = ConnectionDataBase.getConnection().createStatement();
-
             statement.execute(sqlInserUserToken);
-            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
